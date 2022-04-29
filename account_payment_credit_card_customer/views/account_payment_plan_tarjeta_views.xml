@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="account_payment_plan_tarjeta_form_view" model="ir.ui.view">
+        <field name="name">Planes de tarjetas</field>
+        <field name="model">account.payment.plan.tarjeta</field>
+        <field name="arch" type="xml">
+            <form string="Planes de tarjetas">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="active_button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="journal_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="account_payment_plan_tarjeta_search_view" model="ir.ui.view">
+        <field name="model">account.payment.plan.tarjeta</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Archivado" name="archivado" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>   
+
+    <record id="account_payment_plan_tarjeta_tree_view" model="ir.ui.view">
+        <field name="name">account.payment.plan.tarjeta.tree</field>
+        <field name="model">account.payment.plan.tarjeta</field>
+        <field name="arch" type="xml">
+		<tree string="plan de Tarjeta" >
+			<field name="name" />     
+            <field name="journal_id" />       
+		</tree>
+	    </field>
+	</record>
+
+    <record id="action_plan_tarjeta" model="ir.actions.act_window">
+        <field name="name">Planes de Tarjetas</field>
+        <field name="res_model">account.payment.plan.tarjeta</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem action="action_plan_tarjeta" id="menu_plan_tarjeta" 
+    parent="account.account_management_menu" name="Plan Tarjetas" sequence="2" />
+
+</odoo>

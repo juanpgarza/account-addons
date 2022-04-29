@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_account_payment_form" model="ir.ui.view">
+        <field name="name">account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="is_credit_card" invisible="1" />
+                <field name="plan_tarjeta_id" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+                <field name="nro_cupon" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+                <field name="nro_lote" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_pagos_tarjeta_tree" model="ir.ui.view">
+            <field name="name">view.pagos.tarjeta.tree</field>
+            <field name="model">account.payment</field>
+            <field name="arch" type="xml">
+            <tree string="Pagos con tarjeta" >
+                <field name="date"/>
+                <field name="display_name"/>
+                <field name="partner_id"/>
+                <field name="plan_tarjeta_id" />
+                <field name="nro_cupon" />
+                <field name="nro_lote" />
+                <field name="journal_id" groups="account.group_account_user"/>
+                <!-- <field name="payment_type_copy" invisible="context.get('visible', True)"/> -->
+                <field name="amount" sum="Total Amount"/>
+                <field name="state"/>
+            </tree>
+	    </field>
+	</record>
+
+    <record id="view_pagos_tarjeta_search" model="ir.ui.view">
+        <field name="name">view.pagos.tarjeta.search</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search" />
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <field name="nro_tarjeta" string="Nro Tarjeta"/>
+                <field name="plan_tarjeta_id" string="plan Tarjeta"/>
+                <field name="nro_cupon" string="Cupon"/>
+            </field>
+        </field>
+	</record>
+
+    <record id="action_view_pagos_tarjeta" model="ir.actions.act_window">
+        <field name="name">Pagos con Tarjeta</field>
+        <field name="res_model">account.payment</field>
+        <!-- <field name="view_type">form</field> -->
+        <field name="view_id" ref="view_pagos_tarjeta_tree" />
+        <field name="domain">[('is_credit_card','=','1')]</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem action="action_view_pagos_tarjeta" id="menu_pagos_tarjeta_credito"
+            parent="account_payment_group.menu_finance_bank_and_cash"/>
+
+</odoo>
