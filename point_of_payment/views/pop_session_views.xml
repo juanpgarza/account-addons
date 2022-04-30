@@ -1,0 +1,167 @@
+<odoo>
+<!-- Copyright 2021 ITSur - Juan Pablo Garza <jgarza@itsur.com.ar>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+  <data>
+
+    <record id="view_pop_session_form" model="ir.ui.view">
+        <field name="name">pop.session.form.view</field>
+        <field name="model">pop.session</field>
+        <field name="arch" type="xml">
+            <form string="Sesión de caja" create="false" delete="false" edit="false">
+                <header>
+
+                    <button name="action_pop_session_open" type="object" string="ABRIR SESIÓN"
+                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', False), ('state', '!=', 'opening_control')]}" class="oe_highlight"/>
+                   
+                    <button name="action_pop_session_closing_control" type="object" string="FINALIZAR SESIÓN"
+                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', False),('state', '!=', 'opened')]}" 
+                        class="oe_highlight"/>
+
+                    <button name="action_pop_session_closing_control" type="object" string="CONTROL Y CIERRE"
+                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', True),('state', '!=', 'opened')]}"
+                        class="oe_highlight"/>
+
+                    <button name="action_pop_session_validate" type="object" string="FINALIZAR SESIÓN" 
+                        attrs="{'invisible' : ['|', ('usuario_actual_responsable', '==', False), ('state', '!=', 'closing_control')]}"                        
+                        class="oe_highlight"/>
+                    
+                    <field name="state" widget="statusbar" statusbar_visible="opening_control,opened,closing_control,closed" nolabel="1" />
+                    
+                </header>
+                
+                <sheet>                    
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="pop_cash_in"
+                            type="object" icon="fa-level-down"
+                            attrs="{'invisible': ['|', ('usuario_actual_responsable', '==', False),('state', 'not in', ['opened','closing_control'])]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Ingresar</span>
+                                <span class="o_stat_text">Efectivo</span>
+                            </div>
+                        </button>                        
+                        <button class="oe_stat_button" name="pop_cash_out"
+                            type="object" icon="fa-level-down"
+                            attrs="{'invisible': ['|', ('usuario_actual_responsable', '==', False),('state', 'not in', ['opened','closing_control'])]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Retirar</span>
+                                <span class="o_stat_text">Efectivo</span>
+                            </div>
+                        </button>
+
+                        <button class="oe_stat_button" name="pop_cash_open"
+                            type="object" 
+                            icon="fa-money"
+                            attrs="{'invisible':['|', '|', ('usuario_actual_responsable', '==', False),('cash_control', '=', False), ('state', '!=', 'opening_control')]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Informar</span>
+                                <span class="o_stat_text">saldo inicial</span>
+                            </div>
+                        </button>
+
+                        <button class="oe_stat_button" name="pop_cash_close"
+                            type="object" 
+                            icon="fa-money"
+                            attrs="{'invisible':['|', '|', '|', '|', ('usuario_actual_responsable', '==', False),('cash_control', '=', False), ('state', '=', 'opening_control'), ('state', '=', 'closed'),('state', '=', 'opened')]}">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Informar</span>
+                                <span class="o_stat_text">saldo final</span>
+                            </div>
+                        </button>
+
+                    </div>
+                    <h1 class="oe_title">
+                        Sesión:
+                        <field name="name" attrs="{'invisible': [('name','=','/')]}" class="oe_inline"/>
+                    </h1>
+                    <group>
+                        <field name="cash_control" invisible="1" />
+                        <group>
+                            <field name="user_id"/>                            
+                            <field name="pop_id" readonly="1"/>
+                            <field name="usuario_actual_responsable" invisible='1' />
+                        </group>
+                        <group>
+                            <field name="start_at" attrs="{'invisible' : [('state', '=', 'opening_control')]}"/>
+                            <field name="stop_at" attrs="{'invisible' : [('state', '!=', 'closed')]}"/>
+                        </group>
+                        <newline/>
+
+                        <div attrs="{'invisible' : [('cash_control', '=', False)]}">
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="cash_register_balance_start" readonly="1" string="Saldo Inicial" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <label for="cash_register_total_entry_encoding" attrs="{'invisible' : [('state', '=', 'opening_control')]}" string="+ Transacciones" class="oe_force_bold oe_opening_total"/>
+                                <field name="cash_register_total_entry_encoding" nolabel="1" attrs="{'invisible' : [('state', '=', 'opening_control')]}" class="oe_bold oe_pos_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                <label for="cash_register_balance_end" attrs="{'invisible' : [('state', '=', 'opening_control')]}" string="= Saldo Final Teórico" class="oe_force_bold oe_opening_total"/>
+                                <field name="cash_register_balance_end" nolabel="1" attrs="{'invisible' : [('state', '=', 'opening_control')]}" class="oe_bold oe_pos_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <div class="oe_clear"/>
+                        </div>
+                        <div>
+                            <group class="oe_subtotal_footer oe_right" attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', '=', 'opening_control')]}">
+                                <field name="cash_register_balance_end_real" string="Saldo Final Real" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                            <group/>
+                            <group/>
+                            <group class="oe_subtotal_footer oe_right" attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', '=', 'opening_control')]}">
+                                <field name="cash_register_difference" class="oe_subtotal_footer_separator oe_right oe_pos_total oe_pos_difference" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </div>
+
+                    </group>
+                    <separator string="Resumen por medio de pago" attrs="{'invisible' : [('state', '=', 'opening_control')]}"/>
+                    <field name="pop_session_journal_ids" attrs="{'invisible' : [('state', '=', 'opening_control')]}">
+                        <tree string="Medios de pago">
+                            <field name="journal_id" />
+                            <field name="balance_start" />
+                            <field name="total_entry_encoding" />
+                            <field name="balance_end_real" />
+                            <field name="currency_id" groups="base.group_multi_currency" />
+                        </tree>
+                    </field>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="activity_ids" widget="mail_activity"/>                    
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_pop_session_tree" model="ir.ui.view">
+        <field name="name">pop.session.tree.view</field>
+        <field name="model">pop.session</field>
+        <field name="arch" type="xml">
+            <tree create="false" delete="false" edit="false">
+                <!-- <field name="id"/> -->
+                <field name="pop_id"/>
+                <field name="start_at"/>
+                <field name="stop_at"/>
+                <field name="user_id"/>
+                <field name="name" string="Descripción"/>
+                <field name="state" string="Estado actual"/>
+                <field name="cash_register_balance_start" string="Saldo inicial"/>
+                <field name="cash_register_balance_end" string="Saldo final teórico"/>
+                <field name="cash_register_balance_end_real" string="Saldo final real"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pop_session_action" model="ir.actions.act_window">
+        <field name="name">Sesiones de caja</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pop.session</field>
+        <field name="context">{'search_default_sesiones_iniciadas_hoy': True}</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Iniciar la primer sessión
+            </p><p>
+                Gestión de sesiones de caja
+            </p>
+        </field>
+    </record> 
+    
+  </data>
+</odoo>

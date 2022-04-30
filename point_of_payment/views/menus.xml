@@ -1,0 +1,27 @@
+<odoo>
+<!-- Copyright 2021 ITSur - Juan Pablo Garza <jgarza@itsur.com.ar>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+  <data>
+
+    <menuitem id="menu_pop_root"
+        name="Caja"
+        sequence="10"/>
+
+    <menuitem id="menu_pop_dashboard" action="pop_config_kanban_action" parent="menu_pop_root" name="Información general" sequence="1"/>
+
+    <menuitem id="menu_pop_config" 
+        name="Cajas"
+        parent="menu_pop_root"
+        action="pop_config_action"
+        sequence="100"
+        groups="point_of_payment.group_pop_manager"/>
+
+    <menuitem id="menu_pop_session" 
+        name="Sesiones"
+        parent="menu_pop_root"
+        action="pop_session_action"
+        sequence="200"
+        groups="point_of_payment.group_pop_manager"/>
+
+  </data>
+</odoo>

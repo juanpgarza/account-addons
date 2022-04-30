@@ -1,0 +1,31 @@
+<odoo>
+  <data>
+
+    <record id="view_bank_statement_line_form" model="ir.ui.view">
+        <field name="name">pop.session.journal.line.form</field>
+        <field name="model">pop.session.journal.line</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Detalle">
+            <header>
+
+            </header>
+            <sheet>
+                <group>
+                    <group>
+                        <field name="date"/>
+                        <field name="account_payment_id"/>
+                    </group>
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="amount"/>
+                    </group>
+                </group>
+            </sheet>
+            </form>
+        </field>
+    </record>
+
+  </data>
+</odoo>

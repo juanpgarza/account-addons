@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_cash_in" model="ir.ui.view">
+        <field name="name">Ingreso de caja</field>
+        <field name="model">pop.session.cash.in</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group> <field name="description" /> </group>
+                    <group> <field name="amount" /> </group>
+                </group>
+                <footer>
+                    <button type="object" name="do_cash_in"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="retirar_efectivo" model="ir.ui.view">
+        <field name="name">Retiro de efectivo</field>
+        <field name="model">pop.session.cash.out</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group> <field name="description" /> </group>
+                    <group> <field name="amount" /> </group>
+                </group>
+                <footer>
+                    <button type="object" name="do_cash_out"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="abrir_caja" model="ir.ui.view">
+        <field name="name">Apertura de caja</field>
+        <field name="model">pop.session.cash.open</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group> <field name="amount" /> </group>
+                </group>
+                <footer>
+                    <button type="object" name="do_pop_open"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="informar_saldo_final" model="ir.ui.view">
+        <field name="name">Informar saldo final</field>
+        <field name="model">pop.session.cash.close</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group> <field name="amount" /> </group>
+                </group>
+                <footer>
+                    <button type="object" name="do_pop_close"
+                    string="Aceptar" class="oe_highlight" />
+                    <button special="cancel" string="Cancelar"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

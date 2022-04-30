@@ -1,0 +1,153 @@
+<odoo>
+<!-- Copyright 2021 ITSur - Juan Pablo Garza <jgarza@itsur.com.ar>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+    <data>
+
+        <record id="pop_config_view_form" model="ir.ui.view">
+            <field name="name">pop.config.form.view</field>
+            <field name="model">pop.config</field>
+            <field name="arch" type="xml">
+                <form string="Configuración de caja">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                        </div>
+                        <div class="oe_title" id="title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name"/></h1>
+                        </div>
+
+                        <h2>Payments</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box" id="payment_methods">
+                                <div class="o_setting_right_pane">
+                                    <span class="o_form_label">Payment Methods</span>
+                                    <div class="text-muted">
+                                        Payment methods available
+                                    </div>
+                                    <div class="content-group mt16">
+                                        <field name="journal_ids" required="1" colspan="4" nolabel="1" context="{'default_type': 'cash'}" widget="many2many_tags"/>
+                                    </div>        
+                                </div>
+                        </div>
+                            <div class="col-12 col-lg-6 o_setting_box" id="sesiones">
+                                <div class="o_setting_right_pane">                               
+                                    <span class="o_form_label">Secuencia</span>
+                                    <div class="text-muted">
+                                        Secuencia numeración sesiones
+                                    </div>
+                                    <div class="content-group mt16">
+                                        <field name="sequence_id" colspan="4" nolabel="0" />
+                                    </div>                                
+                                </div>
+                            </div>
+
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!-- Dashboard -->
+        <record id="view_pop_config_kanban" model="ir.ui.view">
+            <field name="name">pop.config.kanban.view</field>
+            <field name="model">pop.config</field>
+            <field name="arch" type="xml">
+                <kanban create="false" class="o_kanban_dashboard o_pos_kanban">
+                    <field name="name"/>
+                    <field name="current_session_id"/>
+                    <field name="current_session_state"/>
+                    <field name="pop_session_username"/>
+                    <field name="pop_session_state"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div>
+                                <div class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title mb16">
+                                        <div class="o_primary">
+                                            <t t-esc="record.name.value"/>
+                                        </div>
+                                        <t t-if="record.pop_session_state.raw_value == 'opening_control'">
+                                            <div class="badge badge-info o_kanban_inline_block">CONTROL DE APERTURA</div>
+                                        </t>
+                                        <t t-if="record.pop_session_state.raw_value == 'opened'">
+                                            <div class="badge badge-success o_kanban_inline_block">EN PROCESO</div>
+                                        </t>
+                                        <t t-if="record.pop_session_state.raw_value == 'closing_control'">
+                                            <div class="badge badge-info o_kanban_inline_block">CONTROL DE CIERRE</div>
+                                        </t>
+                                        <t t-set="unused_message">Unused</t>
+                                        <div class="o_secondary mt16"><t t-esc="record.pop_session_username.value || unused_message"/></div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section">
+                                        <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content">
+                                    <div class="row">
+                                        <div class="col-6 o_kanban_primary_left">
+
+                                            <button t-if="record.current_session_state.raw_value === 'opening_control'" class="btn btn-primary" name="open_existing_session_cb" type="object" groups="point_of_payment.group_pop_manager">Abrir Sesión</button>
+
+                                            <button t-if="_.contains(['opened', 'closing_control'], record.current_session_state.raw_value)" class="btn btn-secondary" name="open_existing_session_cb" type="object" groups="point_of_payment.group_pop_manager">Cerrar</button>
+
+                                            <button t-if="!record.current_session_id.raw_value &amp;&amp; !record.pop_session_username.value" class="btn btn-primary" name="open_session_cb" type="object" groups="point_of_payment.group_pop_manager">Nueva Sesión</button> 
+
+                                        </div>
+                                        <div class="col-6 o_kanban_primary_right">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_pop_config_search" model="ir.ui.view">
+            <field name="name">pop.config.search.view</field>
+            <field name="model">pop.config</field>
+            <field name="arch" type="xml">
+                <search string="Configuración de caja">
+                    <field name="name"/>
+                    <!-- <filter string="Inactive" name="inactive" domain="[('active', '=', False)]" /> -->
+                    <!-- <field name="stock_location_id" groups="stock.group_stock_multi_locations" /> -->
+                </search>
+            </field>
+        </record>
+
+        <record id="pop_config_action" model="ir.actions.act_window">
+            <field name="name">Cajas</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pop.config</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Definir una caja nueva
+                </p><p>
+                    Gestión de cajas
+                </p>
+            </field>
+        </record>
+
+        <record id="pop_config_kanban_action" model="ir.actions.act_window">
+            <field name="name">Caja</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pop.config</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain"></field>
+            <field name="search_view_id" ref="view_pop_config_search" />
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Crear una caja nueva
+                </p><p>
+                    Configurar una caja para gestionar cobros y pagos
+                </p>
+            </field>
+        </record>    
+
+    </data>
+</odoo>

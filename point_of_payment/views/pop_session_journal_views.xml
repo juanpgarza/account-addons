@@ -1,0 +1,38 @@
+<odoo>
+  <data>
+    <record id="view_bank_statement_form" model="ir.ui.view">
+        <field name="name">pop.session.journal.form</field>
+        <field name="model">pop.session.journal</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <form string="Bank Statement">
+                <group>
+                    <group>
+                        <field name="date"/>
+                        <field name="journal_id"/>
+                    </group>
+                    <group>                    
+                        <field name="balance_start"/>
+                        <field name="balance_end"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Transacciones">                        
+                        <field name="line_ids" context="{'date':date}">
+                            <tree editable="bottom" string="Statement lines" limit="500">
+                                <!-- <field name="sequence"  widget="handle"/> -->
+                                <field name="date"/>
+                                <field name="ref"/>
+                                <field name="partner_id"/>
+                                <field name="account_payment_id"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+  </data>
+</odoo>

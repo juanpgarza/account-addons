@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+<!-- Copyright 2021 ITSur - Juan Pablo Garza <jgarza@itsur.com.ar>
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html). -->
+        <record id="view_users_form_extend" model="ir.ui.view">
+            <field name="name">res.users.form.extend</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <group name="preferences" position="after">
+                    <group name="pop_users_conf" string="Cajas">
+                        <field name="default_pop_id" invisible="0"/>
+                    </group>
+                </group>
+            </field>
+        </record>
+    </data>
+</odoo>
