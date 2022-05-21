@@ -17,9 +17,10 @@ class AccountPayment(models.Model):
 
     @api.constrains('nro_cupon','nro_lote')
     def _check_pago_tarjeta(self):
-        if self.is_credit_card:
-            if (not self.nro_cupon) or (not self.nro_lote) or (not self.plan_tarjeta_id):
-                raise ValidationError("Debe ingresar los datos de pago de tarjeta")
+        for rec in self:
+            if rec.is_credit_card:
+                if (not rec.nro_cupon) or (not rec.nro_lote) or (not rec.plan_tarjeta_id):
+                    raise ValidationError("Debe ingresar los datos de pago de tarjeta")
 
     @api.onchange('journal_id')
     def _journal_id_onchange(self):
