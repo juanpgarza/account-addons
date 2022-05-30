@@ -1,9 +1,7 @@
 # Copyright 2022 juanpgarza - Juan Pablo Garza <juanp@juanpgarza.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
-
+from odoo import models, fields
 class PopSessionJournalLine(models.Model):
     _name = 'pop.session.journal.line'
     _description = 'pop session journal line'
@@ -13,7 +11,7 @@ class PopSessionJournalLine(models.Model):
 
     name = fields.Char(string='Motivo', copy=False, readonly=True)
     ref = fields.Char(string='Descripción')
-    
+
     account_payment_id = fields.Many2one(
         'account.payment', string='Pago asociado',
         help=".",
@@ -30,7 +28,7 @@ class PopSessionJournalLine(models.Model):
     amount = fields.Monetary(string='Monto')
     currency_id = fields.Many2one('res.currency', compute='_compute_currency', string="Currency")
     partner_id = fields.Many2one('res.partner', string='Socio')
-    
+
     company_id = fields.Many2one('res.company', related='pop_session_journal_id.journal_id.company_id', string='Company', store=True, readonly=True)
 
     anulado = fields.Boolean('Anulado',default=False)

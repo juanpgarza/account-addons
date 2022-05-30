@@ -9,7 +9,7 @@ class PopSession(models.Model):
     _order = 'id desc'
     _description = 'Sesiones de caja'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    
+
     POP_SESSION_STATE = [
         ('opening_control', 'CONTROL DE APERTURA'),  # method action_pop_session_open
         ('opened', 'EN PROCESO'),               # method action_pop_session_closing_control
@@ -40,7 +40,7 @@ class PopSession(models.Model):
         POP_SESSION_STATE, string='Status',
         required=True, readonly=True,
         index=True, copy=False, default='opening_control')
-    
+
     journal_ids = fields.Many2many(
         'account.journal',
         related='pop_id.journal_ids',
@@ -196,7 +196,7 @@ class PopSession(models.Model):
 
     def action_pop_session_close(self):
         self.write({'state': 'closed'})
-        
+
         self.env['pop.config'].browse(self.pop_id.id).write({'last_closed_session_id': self.id})
 
         return {
@@ -212,7 +212,7 @@ class PopSession(models.Model):
             'name': 'Ingresar Efectivo',
             'view_mode': 'form',
             'res_model': 'pop.session.cash.in',
-            'target': 'new'  
+            'target': 'new'
         }
 
     def pop_cash_out(self):
@@ -221,7 +221,7 @@ class PopSession(models.Model):
             'name': 'Retirar Efectivo',
             'view_mode': 'form',
             'res_model': 'pop.session.cash.out',
-            'target': 'new'  
+            'target': 'new'
         }
 
     def pop_cash_open(self):
@@ -230,16 +230,16 @@ class PopSession(models.Model):
             'name': 'Abrir caja',
             'view_mode': 'form',
             'res_model': 'pop.session.cash.open',
-            'target': 'new'  
+            'target': 'new'
         }
-    
+
     def pop_cash_close(self):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Cerrar caja',
             'view_mode': 'form',
             'res_model': 'pop.session.cash.close',
-            'target': 'new'  
+            'target': 'new'
         }
 
     def pop_cash_expense(self):
@@ -248,5 +248,8 @@ class PopSession(models.Model):
             'name': 'Gastos',
             'view_mode': 'form',
             'res_model': 'pop.session.cash.expense',
-            'target': 'new'  
+            'target': 'new'
         }
+
+    def get_session_journal_id(self, journal_id):
+        return self.pop_session_journal_ids.filtered(lambda x: x.journal_id.id == journal_id.id)

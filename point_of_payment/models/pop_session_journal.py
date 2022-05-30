@@ -1,8 +1,7 @@
 # Copyright 2022 juanpgarza - Juan Pablo Garza <juanp@juanpgarza.com>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError, ValidationError
+from odoo import models, fields, api
 
 class PopSessionJournal(models.Model):
     _name = 'pop.session.journal'
@@ -18,13 +17,13 @@ class PopSessionJournal(models.Model):
             rec.total_entry_encoding_out = sum([line.amount for line in rec.line_ids.filtered(lambda x: x.amount < 0)])
 
     @api.model
-    def _default_opening_balance(self):       
+    def _default_opening_balance(self):
         return 0
 
     @api.depends('journal_id')
     def _compute_currency(self):
         self.currency_id = self.journal_id.currency_id or self.company_id.currency_id
-   
+
     name = fields.Char(string='Reference', copy=False, readonly=True)
 
     pop_session_id = fields.Many2one(
