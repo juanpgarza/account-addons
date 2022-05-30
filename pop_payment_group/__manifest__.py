@@ -12,7 +12,6 @@
     "depends": [
         "point_of_payment",
         "account_payment_group",
-        # "account_payment_group_document",
         ],
     "data": [
         'views/account_payment_group_views.xml',
