@@ -134,3 +134,13 @@ class AccountPayment(models.Model):
                     print("No tiene que anular en la caja 2.")
 
 
+    @api.model
+    def default_get(self, fields_list):
+        res = super().default_get(fields_list)
+        # cuando es una transferencia interna, no pasa por el payment_group
+        # entonces el payment no toma los valores de pop_id y pop_session_id
+        if res["is_internal_transfer"]:
+            res['journal_id'] = False
+            res['pop_id'] = self.env.user.get_selected_pop_id().id
+            res['pop_session_id'] = self.env.user.get_selected_pop_id().current_session_id.id
+        return res
