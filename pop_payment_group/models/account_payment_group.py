@@ -18,6 +18,7 @@ class AccountPaymentGroup(models.Model):
     pop_session_id = fields.Many2one('pop.session',
         string='Sesión de caja',
         ondelete='Restrict',
+        domain="['&',('pop_id','=',pop_id),('state','=','opened')]",        
         readonly=True,
         states={'draft': [('readonly', False)]},
     )
@@ -28,6 +29,9 @@ class AccountPaymentGroup(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        res['pop_id'] = self.env.user.get_selected_pop_id().id
-        res['pop_session_id'] = self.env.user.get_selected_pop_id().current_session_id.id
+        pop_id = self.env.user.get_selected_pop_id()
+        if pop_id.current_session_state != 'opened':
+            raise UserError("Debe iniciar una sesión de caja para continuar")        
+        res['pop_id'] = pop_id.id
+        res['pop_session_id'] = pop_id.current_session_id.id
         return res

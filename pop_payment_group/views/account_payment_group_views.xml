@@ -17,8 +17,8 @@
             </button>
 
             <field name="communication" position="after">
-                <field name="pop_id" required="1" visible="1" options="{'no_create': True, 'no_open': True}"/>
-                <field name="pop_session_id" required="1"  options="{'no_create': True, 'no_open': True}"/>
+                <field name="pop_id" readonly="1" force_save="1" required="1" visible="1" options="{'no_create': True, 'no_open': True}"/>
+                <field name="pop_session_id" readonly="1" force_save="1" required="1"  options="{'no_create': True, 'no_open': True}"/>
             </field>
 
 			<field name="payment_ids" position="attributes">
