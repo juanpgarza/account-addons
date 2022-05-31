@@ -23,7 +23,7 @@
             <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
             <field name="arch" type="xml">
                 <group name="preferences" position="after">
-                    <group name="pop_users_conf" string="Cajas">
+                    <group name="pop_users_conf" string="Cajas" groups="point_of_payment.group_pop_user" >
                         <field name="selected_pop_id" invisible="0"/>
                     </group>
                 </group>

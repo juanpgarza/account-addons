@@ -104,7 +104,7 @@ class PopSession(models.Model):
             session.cash_journal_id = session.cash_register_id = session.cash_control = False
             if session.pop_id.cash_control:
                 for statement in session.pop_session_journal_ids:
-                    if statement.journal_id.type == 'cash':
+                    if statement.journal_id.type == 'cash' and statement.journal_id.cash_control:
                         session.cash_control = True
                         session.cash_journal_id = statement.journal_id.id
                         session.cash_register_id = statement.id

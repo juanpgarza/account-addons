@@ -44,39 +44,20 @@ class AccountPayment(models.Model):
 
             inbound_payment_method_codes = rec.journal_id.inbound_payment_method_line_ids.mapped('code')
 
-            if 'received_third_check' in inbound_payment_method_codes:
-                # cheque de tercero
-                if rec.check_bank_id.name and rec.check_payment_date:
-                    ref = rec.check_bank_id.name + ' - ' + rec.check_payment_date.strftime("%m/%d/%Y")
-            elif 'electronic' in inbound_payment_method_codes:
-                # transferencia bancaria
-                ref = 'Transferencia '
-            elif 'withholding' in inbound_payment_method_codes:
-                # retenciones
-                if rec.tax_withholding_id and rec.withholding_number:
-                    ref = rec.tax_withholding_id.name + ' - ' + rec.withholding_number
-            elif 'inbound_credit_card' in inbound_payment_method_codes:
-                # tarjeta crédito
-                # if rec.nro_lote and rec.nro_cupon:
-                #     ref = "Lote: " + str(rec.nro_lote) + " - " + "Cupón: " + rec.nro_cupon
-                ref = ''
-            elif 'outbound_debit_card' in inbound_payment_method_codes:
-                # tarjeta débito
-                ref = ''
-            else:
-                ref = ''
-
             vals = {
                 'name': rec.display_name,
                 'amount': amount,
                 'partner_id': self.partner_id.id,
-                'ref': ref,
+                'ref': rec._get_payment_ref(ref, inbound_payment_method_codes),
                 'account_payment_id': rec.id,
                 'pop_session_journal_id': rec.pop_session_id.get_session_journal_id(rec.journal_id).id
             }
 
             self.env['pop.session.journal.line'].create(vals)
 
+    def _get_payment_ref(self, ref, payment_method_codes):
+        if 'manual' in payment_method_codes:
+            return ref
 
     def action_cancel(self):
         super(AccountPayment,self).action_cancel()
@@ -137,10 +118,13 @@ class AccountPayment(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
+        pop_id = self.env.user.get_selected_pop_id()
+        if pop_id.current_session_state != 'opened':
+            raise UserError("Debe iniciar una sesión de la caja {} para continuar".format(pop_id.name))
         # cuando es una transferencia interna, no pasa por el payment_group
         # entonces el payment no toma los valores de pop_id y pop_session_id
-        if res["is_internal_transfer"]:
+        if "is_internal_transfer" in res and res["is_internal_transfer"]:
             res['journal_id'] = False
-            res['pop_id'] = self.env.user.get_selected_pop_id().id
-            res['pop_session_id'] = self.env.user.get_selected_pop_id().current_session_id.id
+            res['pop_id'] = pop_id.id
+            res['pop_session_id'] = pop_id.current_session_id.id
         return res

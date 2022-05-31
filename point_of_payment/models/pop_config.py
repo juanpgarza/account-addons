@@ -107,14 +107,14 @@ class PopConfig(models.Model):
     @api.model
     def create(self, vals):
         res = super(PopConfig, self).create(vals)
-        if not res["journal_ids"].filtered(lambda x: x.type == 'cash'):
-            raise ValidationError("Debe informar un diario de tipo 'Efectivo'")
+        if not res["journal_ids"].filtered(lambda x: x.type == 'cash' and x.cash_control):
+            raise ValidationError("Debe informar un diario de tipo 'Efectivo' y con control de efectivo")
         return res
 
     def write(self, vals):
         res = super(PopConfig, self).write(vals)
         for rec in self:
-            if not rec.journal_ids.filtered(lambda x: x.type == 'cash'):
-                raise ValidationError("Debe informar un diario de tipo 'Efectivo'")
+            if not rec.journal_ids.filtered(lambda x: x.type == 'cash' and x.cash_control):
+                raise ValidationError("Debe informar un diario de tipo 'Efectivo' y con control de efectivo")
         
         return res

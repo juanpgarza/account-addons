@@ -10,7 +10,7 @@ class PopSessionCashIn(models.TransientModel):
 
     # WARNING mig-pop odoo.fields: Field pop.session.cash_register_balance_end: unknown parameter 'digits', 
     # if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it
-    amount = fields.Float(string='Amount', required=True)
+    amount = fields.Float(string='Monto', required=True)
 
     pop_session_id = fields.Many2one('pop.session',string='Sesión')
 
@@ -41,7 +41,7 @@ class PopSessionCashOpen(models.TransientModel):
     def saldo_anterior(self):
         return self.env['pop.session'].browse(self.env.context['active_id']).pop_id.last_closed_session_id.cash_register_balance_end_real
 
-    amount = fields.Float(string='Amount', required=True,default=saldo_anterior)
+    amount = fields.Float(string='Monto', required=True,default=saldo_anterior)
 
     pop_session_id = fields.Many2one('pop.session',string='Sesión')
 
@@ -66,7 +66,7 @@ class PopSessionCashOut(models.TransientModel):
     _name = 'pop.session.cash.out'
     _description = 'Retiro de efectivo'
 
-    amount = fields.Float(string='Amount', required=True)
+    amount = fields.Float(string='Monto', required=True)
 
     pop_session_id = fields.Many2one('pop.session',string='Sesión')
 
@@ -94,7 +94,7 @@ class PopSessionCashClose(models.TransientModel):
     _name = 'pop.session.cash.close'
     _description = 'Informar saldo final'
 
-    amount = fields.Float(string='Amount', required=True)
+    amount = fields.Float(string='Monto', required=True)
 
     pop_session_id = fields.Many2one('pop.session',string='Sesión')
 

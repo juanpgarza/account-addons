@@ -15,6 +15,7 @@
     "data": [
         'security/pop_security.xml',
         'security/ir.model.access.csv',
+        'views/account_journal_views.xml',        
         'views/account_payment_views.xml',
         'views/pop_config_views.xml',
         'views/pop_session_journal_line_views.xml',
