@@ -8,7 +8,10 @@
         <field name="arch" type="xml">
             <field name="journal_id" position="after">
                 <field name="is_credit_card" invisible="1" />
-                <field name="plan_tarjeta_id" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+                <field name="plan_tarjeta_id"
+                domain="[('journal_id','=',journal_id)]"
+                context="{'default_journal_id': journal_id}"
+                attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
                 <field name="nro_cupon" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
                 <field name="nro_lote" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
             </field>
