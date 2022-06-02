@@ -7,29 +7,29 @@
         <field name="name">pop.session.form.view</field>
         <field name="model">pop.session</field>
         <field name="arch" type="xml">
-            <form string="Sesión de caja" create="false" delete="false" edit="false">
+            <form string="Sesión de caja" create="false" delete="false" edit="true">
                 <header>
 
                     <button name="action_pop_session_open" type="object" string="ABRIR SESIÓN"
                         attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', False), ('state', '!=', 'opening_control')]}" class="oe_highlight"/>
-                   
+
                     <button name="action_pop_session_closing_control" type="object" string="FINALIZAR SESIÓN"
-                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', False),('state', '!=', 'opened')]}" 
+                        attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', False),('state', '!=', 'opened')]}"
                         class="oe_highlight"/>
 
                     <button name="action_pop_session_closing_control" type="object" string="CONTROL Y CIERRE"
                         attrs="{'invisible' : ['|','|', ('usuario_actual_responsable', '==', False), ('cash_control', '=', True),('state', '!=', 'opened')]}"
                         class="oe_highlight"/>
 
-                    <button name="action_pop_session_validate" type="object" string="FINALIZAR SESIÓN" 
-                        attrs="{'invisible' : ['|', ('usuario_actual_responsable', '==', False), ('state', '!=', 'closing_control')]}"                        
+                    <button name="action_pop_session_validate" type="object" string="FINALIZAR SESIÓN"
+                        attrs="{'invisible' : ['|', ('usuario_actual_responsable', '==', False), ('state', '!=', 'closing_control')]}"
                         class="oe_highlight"/>
-                    
+
                     <field name="state" widget="statusbar" statusbar_visible="opening_control,opened,closing_control,closed" nolabel="1" />
-                    
+
                 </header>
-                
-                <sheet>                    
+
+                <sheet>
                     <div class="oe_button_box" name="button_box">
                         <button class="oe_stat_button" name="pop_cash_in"
                             type="object" icon="fa-level-down"
@@ -38,7 +38,7 @@
                                 <span class="o_stat_text">Ingresar</span>
                                 <span class="o_stat_text">Efectivo</span>
                             </div>
-                        </button>                        
+                        </button>
                         <button class="oe_stat_button" name="pop_cash_out"
                             type="object" icon="fa-level-down"
                             attrs="{'invisible': ['|', ('usuario_actual_responsable', '==', False),('state', 'not in', ['opened','closing_control'])]}">
@@ -49,7 +49,7 @@
                         </button>
 
                         <button class="oe_stat_button" name="pop_cash_open"
-                            type="object" 
+                            type="object"
                             icon="fa-money"
                             attrs="{'invisible':['|', '|', ('usuario_actual_responsable', '==', False),('cash_control', '=', False), ('state', '!=', 'opening_control')]}">
                             <div class="o_field_widget o_stat_info">
@@ -59,7 +59,7 @@
                         </button>
 
                         <button class="oe_stat_button" name="pop_cash_close"
-                            type="object" 
+                            type="object"
                             icon="fa-money"
                             attrs="{'invisible':['|', '|', '|', '|', ('usuario_actual_responsable', '==', False),('cash_control', '=', False), ('state', '=', 'opening_control'), ('state', '=', 'closed'),('state', '=', 'opened')]}">
                             <div class="o_field_widget o_stat_info">
@@ -76,9 +76,10 @@
                     <group>
                         <field name="cash_control" invisible="1" />
                         <group>
-                            <field name="user_id"/>                            
+                            <field name="user_id" readonly="1"/>
                             <field name="pop_id" readonly="1"/>
                             <field name="usuario_actual_responsable" invisible='1' />
+                            <field name="arqueo_inicial_realizado" attrs="{'invisible' : [('state', '!=', 'opening_control')]}"/>
                         </group>
                         <group>
                             <field name="start_at" attrs="{'invisible' : [('state', '=', 'opening_control')]}"/>
@@ -121,7 +122,7 @@
                 </sheet>
                 <div class="oe_chatter">
                     <field name="message_follower_ids" widget="mail_followers" />
-                    <field name="activity_ids" widget="mail_activity"/>                    
+                    <field name="activity_ids" widget="mail_activity"/>
                     <field name="message_ids" widget="mail_thread" />
                 </div>
             </form>
@@ -161,7 +162,7 @@
                 Gestión de sesiones de caja
             </p>
         </field>
-    </record> 
-    
+    </record>
+
   </data>
 </odoo>

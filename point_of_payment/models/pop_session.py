@@ -88,6 +88,8 @@ class PopSession(models.Model):
 
     usuario_actual_responsable = fields.Boolean('Usuario actual responsable de la sesión?', compute='_get_usuario_actual_responsable')
 
+    arqueo_inicial_realizado = fields.Boolean('Arqueo realizado',default=False)
+
     @api.depends()
     def _get_usuario_actual_responsable(self):
         if self.user_id.id == self.env.user.id:
@@ -164,8 +166,10 @@ class PopSession(models.Model):
             raise UserError(_("Ya existe una sesión iniciada para esta caja"))
 
         for session in self.filtered(lambda session: session.state == 'opening_control'):
-            if session.cash_register_balance_start == 0:
-                raise UserError(_("Debe informar el saldo inicial"))
+            # if session.cash_register_balance_start == 0:
+            if not session.arqueo_inicial_realizado:
+                raise UserError("El arqueo inicial está pendiente")
+
             values = {}
             if not session.start_at:
                 values['start_at'] = fields.Datetime.now()
