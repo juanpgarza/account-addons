@@ -80,35 +80,28 @@
                         </group>
                         <newline/>
 
-                        <div attrs="{'invisible' : [('cash_control', '=', False)]}">
-                            <group class="oe_subtotal_footer oe_right">
-                                <field name="cash_register_balance_start" readonly="1" string="Saldo Inicial" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <label for="cash_register_total_entry_encoding" attrs="{'invisible' : [('state', '=', 'opening_control')]}" string="+ Transacciones" class="oe_force_bold oe_opening_total"/>
-                                <field name="cash_register_total_entry_encoding" nolabel="1" attrs="{'invisible' : [('state', '=', 'opening_control')]}" class="oe_bold oe_pos_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                                <label for="cash_register_balance_end" attrs="{'invisible' : [('state', '=', 'opening_control')]}" string="= Saldo Final Teórico" class="oe_force_bold oe_opening_total"/>
-                                <field name="cash_register_balance_end" nolabel="1" attrs="{'invisible' : [('state', '=', 'opening_control')]}" class="oe_bold oe_pos_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            </group>
-                            <div class="oe_clear"/>
-                        </div>
-                        <div>
-                            <group class="oe_subtotal_footer oe_right" attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', '=', 'opening_control')]}">
-                                <field name="cash_register_balance_end_real" string="Saldo Final Real" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            </group>
-                            <group/>
-                            <group/>
-                            <group class="oe_subtotal_footer oe_right" attrs="{'invisible': ['|', ('cash_control', '=', False), ('state', '=', 'opening_control')]}">
-                                <field name="cash_register_difference" class="oe_subtotal_footer_separator oe_right oe_pos_total oe_pos_difference" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                            </group>
-                        </div>
-
                     </group>
+
+                    <separator string="EFECTIVO" attrs="{'invisible': ['|', ('state', '=', 'closed'), ('state', '=', 'opened')]}"/>
+                    <field name="pop_session_journal_cash_ids" attrs="{'invisible': ['|', ('state', '=', 'closed'), ('state', '=', 'opened')]}">
+                        <tree string="Medios de pago" create="false" delete="false" edit="true" editable="bottom">
+                            <field name="journal_id" readonly="True"/>
+                            <field name="balance_start" attrs="{'readonly': [('parent.state', '=', 'closing_control')],'column_invisible': [('parent.state', '=', 'closing_control')]}"/>
+                            <!-- <field name="balance_end_last_session" readonly="True" attrs="{'column_invisible': [('parent.state', '=', 'closing_control')]}"/> -->
+                            <field string="Saldo final REAL" name="balance_end_real" attrs="{'column_invisible': [('parent.state', '=', 'opening_control')]}"/>
+                            <field name="currency_id" groups="base.group_multi_currency" readonly="True"/>
+                        </tree>
+                    </field>
+
                     <separator string="Resumen por medio de pago" attrs="{'invisible' : [('state', '=', 'opening_control')]}"/>
                     <field name="pop_session_journal_ids" attrs="{'invisible' : [('state', '=', 'opening_control')]}">
                         <tree string="Medios de pago">
                             <field name="journal_id" />
                             <field name="balance_start" />
                             <field name="total_entry_encoding" />
+                            <field name="balance_end" />
                             <field name="balance_end_real" />
+                            <field name="difference" />
                             <field name="currency_id" groups="base.group_multi_currency" />
                         </tree>
                     </field>

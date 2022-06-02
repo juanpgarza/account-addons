@@ -52,6 +52,8 @@ class PopSession(models.Model):
 
     pop_session_journal_ids = fields.One2many('pop.session.journal', 'pop_session_id', readonly=True)
 
+    pop_session_journal_cash_ids = fields.One2many('pop.session.journal', 'pop_session_id',domain=[('journal_id.cash_control','=',True)])
+
     cash_control = fields.Boolean(compute='_compute_cash_all', string='Has Cash Control',default=True,readonly=True, store=True)
     cash_journal_id = fields.Many2one('account.journal', compute='_compute_cash_all', string='Diario de efectivo', store=True)
     cash_register_id = fields.Many2one('pop.session.journal', compute='_compute_cash_all', string='Caja Registradora', store=True)
@@ -194,6 +196,18 @@ class PopSession(models.Model):
             session.write({'state': 'opened'})
 
     def _check_pop_session_balance(self):
+
+        mensaje_error = ''
+        for session in self:
+            for journal in session.pop_session_journal_cash_ids:
+                if journal.balance_end < 0:
+                    mensaje_error += "{}: El saldo final no puede ser negativo. \n\n".format(journal.journal_id.name)
+
+                if journal.balance_end != journal.balance_end_real:
+                    mensaje_error += "{}: El saldo final teórico debe coincidir con el real. Informe correctamente el saldo real o haga el ajuste correspondiente. \n\n".format(journal.journal_id.name)
+
+        if mensaje_error:
+            raise UserError(mensaje_error)
 
         for session in self:
             if session.cash_register_balance_end < 0:

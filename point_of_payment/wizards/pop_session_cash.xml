@@ -10,6 +10,9 @@
                     <group>
                         <field name="description" string="Descripción"/>
                         <field name="reason_id" context="{'default_in_reason': True}"/>
+                        <field name="pop_session_id" invisible="True" />
+                        <field name="session_journal_ids" invisible="True" />
+                        <field name="journal_id" required="1" />
                     </group>
                     <group> <field name="amount" /> </group>
                 </group>
@@ -31,28 +34,14 @@
                     <group>
                         <field name="description" string="Descripción" />
                         <field name="reason_id" context="{'default_out_reason': True}"/>
+                        <field name="pop_session_id" invisible="True" />
+                        <field name="session_journal_ids" invisible="True" />
+                        <field name="journal_id" required="1" />
                     </group>
                     <group> <field name="amount" /> </group>
                 </group>
                 <footer>
                     <button type="object" name="do_cash_out"
-                    string="Aceptar" class="oe_highlight" />
-                    <button special="cancel" string="Cancelar"/>
-                </footer>
-            </form>
-        </field>
-    </record>
-
-    <record id="informar_saldo_final" model="ir.ui.view">
-        <field name="name">Informar saldo final</field>
-        <field name="model">pop.session.cash.close</field>
-        <field name="arch" type="xml">
-            <form>
-                <group>
-                    <group> <field name="amount" /> </group>
-                </group>
-                <footer>
-                    <button type="object" name="do_pop_close"
                     string="Aceptar" class="oe_highlight" />
                     <button special="cancel" string="Cancelar"/>
                 </footer>

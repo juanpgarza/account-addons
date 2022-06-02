@@ -7,6 +7,11 @@ class PopSessionJournal(models.Model):
     _name = 'pop.session.journal'
     _description = 'Detalle del medio de pago'
 
+    @api.depends('journal_id')
+    def _compute_currency(self):
+        for rec in self:
+            rec.currency_id = rec.journal_id.currency_id or self.company_id.currency_id
+
     @api.depends('line_ids', 'balance_start', 'line_ids.amount', 'balance_end_real')
     def _end_balance(self):
         for rec in self:
@@ -19,10 +24,6 @@ class PopSessionJournal(models.Model):
     @api.model
     def _default_opening_balance(self):
         return 0
-
-    @api.depends('journal_id')
-    def _compute_currency(self):
-        self.currency_id = self.journal_id.currency_id or self.company_id.currency_id
 
     name = fields.Char(string='Reference', copy=False, readonly=True)
 

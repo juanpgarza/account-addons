@@ -18,6 +18,10 @@ class PopSessionCashIn(models.TransientModel):
 
     reason_id = fields.Many2one(comodel_name="box.session.cash.move.reason", string= 'Motivo de movimiento', domain=[('in_reason','=',True)])
 
+    session_journal_ids = fields.Many2many('account.journal',related='pop_session_id.journal_ids')
+
+    journal_id = fields.Many2one('account.journal',string='Diario',domain="[('cash_control','=',True),('id','in',session_journal_ids)]")
+
     @api.model
     def default_get(self, field_names):
         defaults = super(
@@ -26,7 +30,7 @@ class PopSessionCashIn(models.TransientModel):
         return defaults
 
     def do_cash_in(self):
-        pop_session_journal_id = self.env['pop.session.journal'].search(['&',('pop_session_id','=',self.pop_session_id.id),('journal_id','=',self.pop_session_id.cash_journal_id.id)])
+        pop_session_journal_id = self.pop_session_id.get_session_journal_id(self.journal_id)
 
         vals = {
             'ref': self.description,
@@ -49,6 +53,10 @@ class PopSessionCashOut(models.TransientModel):
 
     reason_id = fields.Many2one(comodel_name="box.session.cash.move.reason", string= 'Motivo de movimiento', domain=[('out_reason','=',True)])
 
+    session_journal_ids = fields.Many2many('account.journal',related='pop_session_id.journal_ids')
+
+    journal_id = fields.Many2one('account.journal',string='Diario',domain="[('cash_control','=',True),('id','in',session_journal_ids)]")
+
     @api.model
     def default_get(self, field_names):
         defaults = super(
@@ -57,7 +65,7 @@ class PopSessionCashOut(models.TransientModel):
         return defaults
 
     def do_cash_out(self):
-        pop_session_journal_id = self.env['pop.session.journal'].search(['&',('pop_session_id','=',self.pop_session_id.id),('journal_id','=',self.pop_session_id.cash_journal_id.id)])
+        pop_session_journal_id = self.pop_session_id.get_session_journal_id(self.journal_id)
 
         vals = {
             'ref': self.description,
@@ -67,25 +75,3 @@ class PopSessionCashOut(models.TransientModel):
         }
 
         self.env['pop.session.journal.line'].create(vals)
-
-class PopSessionCashClose(models.TransientModel):
-    _name = 'pop.session.cash.close'
-    _description = 'Informar saldo final'
-
-    amount = fields.Float(string='Monto', required=True)
-
-    pop_session_id = fields.Many2one('pop.session',string='Sesión')
-
-    description = fields.Char(string='Descripción')
-
-    @api.model
-    def default_get(self, field_names):
-        defaults = super(
-            PopSessionCashClose, self).default_get(field_names)
-        defaults['pop_session_id'] = self.env.context['active_id']
-        return defaults
-
-    def do_pop_close(self):
-        pop_session_journal_id = self.env['pop.session.journal'].search(['&',('pop_session_id','=',self.pop_session_id.id),('journal_id','=',self.pop_session_id.cash_journal_id.id)]).id
-
-        self.env['pop.session.journal'].search([('id','=',pop_session_journal_id)]).write({'balance_end_real':self.amount})
