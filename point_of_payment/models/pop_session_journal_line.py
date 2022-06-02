@@ -33,3 +33,5 @@ class PopSessionJournalLine(models.Model):
 
     anulado = fields.Boolean('Anulado',default=False)
     pop_session_name = fields.Char(related="pop_session_journal_id.pop_session_id.name", string="Sesión de caja")
+
+    reason_id = fields.Many2one(comodel_name="box.session.cash.move.reason", string= 'Motivo de movimiento')

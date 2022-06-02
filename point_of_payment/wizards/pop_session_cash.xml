@@ -7,7 +7,10 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <group> <field name="description" /> </group>
+                    <group>
+                        <field name="description" />
+                        <field name="reason_id" context="{'default_in_reason': True}"/>
+                    </group>
                     <group> <field name="amount" /> </group>
                 </group>
                 <footer>
@@ -25,7 +28,10 @@
         <field name="arch" type="xml">
             <form>
                 <group>
-                    <group> <field name="description" /> </group>
+                    <group>
+                        <field name="description" />
+                        <field name="reason_id" context="{'default_out_reason': True}"/>
+                    </group>
                     <group> <field name="amount" /> </group>
                 </group>
                 <footer>

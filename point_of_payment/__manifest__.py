@@ -15,7 +15,7 @@
     "data": [
         'security/pop_security.xml',
         'security/ir.model.access.csv',
-        'views/account_journal_views.xml',        
+        'views/account_journal_views.xml',
         'views/account_payment_views.xml',
         'views/pop_config_views.xml',
         'views/pop_session_journal_line_views.xml',
@@ -24,7 +24,8 @@
         'views/res_users_views.xml',
         'views/templates.xml',
         'wizards/pop_session_cash.xml',
-        'views/menus.xml',
+        'views/pop_session_cash_move_reason_views.xml',
+         'views/menus.xml',
         ],
     "development_status": "Production/Stable",
     "installable": True,

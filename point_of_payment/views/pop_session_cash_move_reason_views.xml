@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="box_session_cash_move_reason_form_view" model="ir.ui.view">
+        <field name="name">box.session.cash.move.reason.form</field>
+        <field name="model">box.session.cash.move.reason</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                    <!-- <div class="oe_button_box" name="active_button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div> -->
+                    <group>
+                        <field name="name"/>
+                        <field name="in_reason"/>
+                        <field name="out_reason"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- <record id="account_payment_plan_tarjeta_search_view" model="ir.ui.view">
+        <field name="model">account.payment.plan.tarjeta</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Archivado" name="archivado" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record> -->
+
+    <record id="box_session_cash_move_reason_tree_view" model="ir.ui.view">
+        <field name="name">box.session.cash.move.reason.tree</field>
+        <field name="model">box.session.cash.move.reason</field>
+        <field name="arch" type="xml">
+            <tree string="plan de Tarjeta" >
+                <field name="name"/>
+                <field name="in_reason"/>
+                <field name="out_reason"/>
+            </tree>
+	    </field>
+	</record>
+
+    <record id="action_cash_move_reason" model="ir.actions.act_window">
+        <field name="name">Motivos de movimiento de efectivo</field>
+        <field name="res_model">box.session.cash.move.reason</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

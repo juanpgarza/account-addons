@@ -8,13 +8,15 @@ class PopSessionCashIn(models.TransientModel):
     _name = 'pop.session.cash.in'
     _description = 'Ingreso de efectivo'
 
-    # WARNING mig-pop odoo.fields: Field pop.session.cash_register_balance_end: unknown parameter 'digits', 
+    # WARNING mig-pop odoo.fields: Field pop.session.cash_register_balance_end: unknown parameter 'digits',
     # if this is an actual parameter you may want to override the method _valid_field_parameter on the relevant model in order to allow it
     amount = fields.Float(string='Monto', required=True)
 
     pop_session_id = fields.Many2one('pop.session',string='Sesión')
 
     description = fields.Char(string='Motivo')
+
+    reason_id = fields.Many2one(comodel_name="box.session.cash.move.reason", string= 'Motivo de movimiento', domain=[('in_reason','=',True)])
 
     @api.model
     def default_get(self, field_names):
@@ -27,12 +29,13 @@ class PopSessionCashIn(models.TransientModel):
         pop_session_journal_id = self.env['pop.session.journal'].search(['&',('pop_session_id','=',self.pop_session_id.id),('journal_id','=',self.pop_session_id.cash_journal_id.id)])
 
         vals = {
-            'ref': self.description, 
+            'ref': self.description,
             'amount': self.amount,
-            'pop_session_journal_id': pop_session_journal_id.id
+            'pop_session_journal_id': pop_session_journal_id.id,
+            'reason_id': self.reason_id.id,
         }
 
-        self.env['pop.session.journal.line'].create(vals)        
+        self.env['pop.session.journal.line'].create(vals)
 
 class PopSessionCashOpen(models.TransientModel):
     _name = 'pop.session.cash.open'
@@ -72,6 +75,8 @@ class PopSessionCashOut(models.TransientModel):
 
     description = fields.Char(string='Motivo')
 
+    reason_id = fields.Many2one(comodel_name="box.session.cash.move.reason", string= 'Motivo de movimiento', domain=[('out_reason','=',True)])
+
     @api.model
     def default_get(self, field_names):
         defaults = super(
@@ -83,13 +88,14 @@ class PopSessionCashOut(models.TransientModel):
         pop_session_journal_id = self.env['pop.session.journal'].search(['&',('pop_session_id','=',self.pop_session_id.id),('journal_id','=',self.pop_session_id.cash_journal_id.id)])
 
         vals = {
-            'ref': self.description, 
-            'amount': - self.amount, 
-            'pop_session_journal_id': pop_session_journal_id.id
+            'ref': self.description,
+            'amount': - self.amount,
+            'pop_session_journal_id': pop_session_journal_id.id,
+            'reason_id': self.reason_id.id,
         }
 
         self.env['pop.session.journal.line'].create(vals)
-    
+
 class PopSessionCashClose(models.TransientModel):
     _name = 'pop.session.cash.close'
     _description = 'Informar saldo final'
