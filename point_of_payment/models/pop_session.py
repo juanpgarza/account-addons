@@ -148,9 +148,11 @@ class PopSession(models.Model):
 
         for journal in pop_config.journal_ids:
             ctx['journal_id'] = journal.id
+            balance_last_session = pop_config.last_closed_session_id.get_session_journal_id(journal).balance_end_real
             st_values = {
                 'journal_id': journal.id,
-                'pop_session_id': res.id
+                'pop_session_id': res.id,
+                'balance_start': balance_last_session,
             }
 
             # session_journals.append(ABS.with_context(ctx).sudo(uid).create(st_values).id)

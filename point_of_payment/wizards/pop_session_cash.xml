@@ -8,7 +8,7 @@
             <form>
                 <group>
                     <group>
-                        <field name="description" />
+                        <field name="description" string="Descripción"/>
                         <field name="reason_id" context="{'default_in_reason': True}"/>
                     </group>
                     <group> <field name="amount" /> </group>
@@ -29,30 +29,13 @@
             <form>
                 <group>
                     <group>
-                        <field name="description" />
+                        <field name="description" string="Descripción" />
                         <field name="reason_id" context="{'default_out_reason': True}"/>
                     </group>
                     <group> <field name="amount" /> </group>
                 </group>
                 <footer>
                     <button type="object" name="do_cash_out"
-                    string="Aceptar" class="oe_highlight" />
-                    <button special="cancel" string="Cancelar"/>
-                </footer>
-            </form>
-        </field>
-    </record>
-
-    <record id="abrir_caja" model="ir.ui.view">
-        <field name="name">Apertura de caja</field>
-        <field name="model">pop.session.cash.open</field>
-        <field name="arch" type="xml">
-            <form>
-                <group>
-                    <group> <field name="amount" /> </group>
-                </group>
-                <footer>
-                    <button type="object" name="do_pop_open"
                     string="Aceptar" class="oe_highlight" />
                     <button special="cancel" string="Cancelar"/>
                 </footer>
