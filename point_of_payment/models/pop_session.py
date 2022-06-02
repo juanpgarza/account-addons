@@ -39,7 +39,8 @@ class PopSession(models.Model):
     state = fields.Selection(
         POP_SESSION_STATE, string='Status',
         required=True, readonly=True,
-        index=True, copy=False, default='opening_control')
+        index=True, copy=False, default='opening_control',
+        tracking=True,)
 
     journal_ids = fields.Many2many(
         'account.journal',
@@ -185,6 +186,10 @@ class PopSession(models.Model):
             session.write({'state': 'closing_control', 'stop_at': fields.Datetime.now()})
             if not session.pop_id.cash_control:
                 session.action_pop_session_close()
+
+    def action_box_session_back_to_opened(self):
+        for session in self:
+            session.write({'state': 'opened'})
 
     def _check_pop_session_balance(self):
 

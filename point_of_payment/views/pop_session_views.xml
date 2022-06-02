@@ -25,6 +25,9 @@
                         attrs="{'invisible' : ['|', ('usuario_actual_responsable', '==', False), ('state', '!=', 'closing_control')]}"
                         class="oe_highlight"/>
 
+                    <button name="action_box_session_back_to_opened" type="object" string='VOLVER A "EN PROCESO"'
+                        attrs="{'invisible' : ['|', ('usuario_actual_responsable', '==', False), ('state', '!=', 'closing_control')]}"/>
+
                     <field name="state" widget="statusbar" statusbar_visible="opening_control,opened,closing_control,closed" nolabel="1" />
 
                 </header>
