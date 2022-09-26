@@ -22,7 +22,8 @@
             </field>
 
 			<field name="payment_ids" position="attributes">
-                <attribute name="context">{'default_journal_id': False, 'default_pop_id': pop_id, 'default_pop_session_id': pop_session_id, 'default_payment_group_company_id': company_id, 'default_payment_type': partner_type == 'supplier' and 'outbound' or 'inbound', 'default_payment_date': payment_date, 'default_partner_id': partner_id, 'default_partner_type': partner_type, 'payment_group': True, 'default_amount': payment_difference, 'tree_view_ref': 'account_payment_group.view_account_payment_from_group_tree'}</attribute>
+                <!-- <attribute name="context">{'default_journal_id': False, 'default_pop_id': pop_id, 'default_pop_session_id': pop_session_id, 'default_payment_group_company_id': company_id, 'default_payment_type': partner_type == 'supplier' and 'outbound' or 'inbound', 'default_payment_date': payment_date, 'default_partner_id': partner_id, 'default_partner_type': partner_type, 'payment_group': True, 'default_amount': payment_difference, 'tree_view_ref': 'account_payment_group.view_account_payment_from_group_tree'}</attribute> -->
+                <attribute name="context">{'form_view_ref': 'account_payment_group.view_account_payment_from_group_form', 'tree_view_ref': 'account_payment_group.view_account_payment_from_group_tree', 'default_move_journal_types': ('bank', 'cash'), 'default_company_id': company_id, 'default_pop_id': pop_id, 'default_pop_session_id': pop_session_id, 'default_journal_id': False}</attribute>
             </field>
 
             <field name="notes" position="after">
