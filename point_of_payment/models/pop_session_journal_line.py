@@ -34,4 +34,9 @@ class PopSessionJournalLine(models.Model):
     anulado = fields.Boolean('Anulado',default=False)
     pop_session_name = fields.Char(related="pop_session_journal_id.pop_session_id.name", string="Sesión de caja")
 
-    reason_id = fields.Many2one(comodel_name="box.session.cash.move.reason", string= 'Motivo de movimiento')
+    pop_id = fields.Many2one(related="pop_session_journal_id.pop_session_id.pop_id", string="Caja", store=True)
+    pop_session_id = fields.Many2one(related="pop_session_journal_id.pop_session_id", string="Sesión", store=True)
+
+    journal_id = fields.Many2one(related="pop_session_journal_id.journal_id", string="Diario", store=True)
+
+    reason_id = fields.Many2one(comodel_name="pop.session.cash.move.reason", string= 'Motivo de movimiento')
