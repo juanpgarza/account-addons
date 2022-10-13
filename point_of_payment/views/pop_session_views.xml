@@ -51,16 +51,6 @@
                             </div>
                         </button>
 
-                        <button class="oe_stat_button" name="pop_cash_close"
-                            type="object"
-                            icon="fa-money"
-                            attrs="{'invisible':['|', '|', '|', '|', ('usuario_actual_responsable', '==', False),('cash_control', '=', False), ('state', '=', 'opening_control'), ('state', '=', 'closed'),('state', '=', 'opened')]}">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_text">Informar</span>
-                                <span class="o_stat_text">saldo final</span>
-                            </div>
-                        </button>
-
                     </div>
                     <h1 class="oe_title">
                         Sesión:
