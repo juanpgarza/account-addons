@@ -1,15 +1,14 @@
-# Copyright 2021 Tecnativa - Víctor Martínez
-# License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl).
+# Copyright 2022 juanpgarza - Juan Pablo Garza <juanp@juanpgarza.com>
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     "name": "Payment Partner Selectable Option",
-    "version": "15.0.1.0.1",
+    "version": "15.0.1.0.0",
     "category": "Accounting",
     "website": "https://github.com/juanpgarza/account-addons",
     "author": "juanpgarza",
     "license": "AGPL-3",
     "depends": 
         [
-            "account",
             "account_payment_group",
         ],
     "data": 
