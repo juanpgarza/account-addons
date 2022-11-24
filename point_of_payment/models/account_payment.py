@@ -13,13 +13,13 @@ class AccountPayment(models.Model):
     pop_id = fields.Many2one('pop.config',
         string='Caja',
         ondelete='Restrict',
-        readonly=True,
+        # readonly=True,
     )
 
     pop_session_id = fields.Many2one('pop.session',
         string='Sesión de caja',
         ondelete='Restrict',
-        readonly=True,
+        # readonly=True,
     )
 
     pop_session_journal_line_ids = fields.One2many('pop.session.journal.line', 'account_payment_id', string='Renglones de caja')
@@ -30,7 +30,7 @@ class AccountPayment(models.Model):
         super(AccountPayment,self).action_post()
 
         for rec in self:
-            
+
             pop_session_id = rec.pop_id.current_session_id
 
             if rec.is_internal_transfer:
@@ -122,17 +122,15 @@ class AccountPayment(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        # El control de sesión abierta se hace a nivel de payment_group
-        # Los movimientos internos NO se ven reflejados en los movimientos de caja
 
-        # pop_id = self.env.user.get_selected_pop_id()
-        # if pop_id.current_session_state != 'opened':
-        #     raise UserError("Debe iniciar una sesión de la caja {} para continuar".format(pop_id.name))
-        
+        pop_id = self.env.user.get_selected_pop_id()
+        if pop_id.current_session_state != 'opened':
+            raise UserError("Debe iniciar una sesión de la caja {} para continuar".format(pop_id.name))
+
         # cuando es una transferencia interna, no pasa por el payment_group
         # entonces el payment no toma los valores de pop_id y pop_session_id
-        # if "is_internal_transfer" in res and res["is_internal_transfer"]:
-        #     res['journal_id'] = False
-        #     res['pop_id'] = pop_id.id
-        #     res['pop_session_id'] = pop_id.current_session_id.id
+        if "is_internal_transfer" in res and res["is_internal_transfer"]:
+            res['journal_id'] = False
+            res['pop_id'] = pop_id.id
+            res['pop_session_id'] = pop_id.current_session_id.id
         return res
