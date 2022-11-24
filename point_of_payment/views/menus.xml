@@ -5,6 +5,7 @@
 
     <menuitem id="menu_pop_root"
         name="Caja"
+        web_icon="point_of_payment,static/description/icon.png"
         sequence="10"/>
 
     <menuitem id="menu_pop_dashboard" action="pop_config_kanban_action" parent="menu_pop_root" name="Información general" sequence="1"/>
