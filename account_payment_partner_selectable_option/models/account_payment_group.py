@@ -26,7 +26,6 @@ class AccountPaymentGroup(models.Model):
                     "[", "[('payment_selectable', '=', True),"
                 )
                 partner_id_field.attrib["domain"] = domain
-                import pdb; pdb.set_trace()
                 res["arch"] = etree.tostring(order_xml)
         return res
 
