@@ -4,7 +4,7 @@
 {
     "name": "Point of payment",
     "summary": "Introduces concept of point of payment and accounting journal sessions",
-    "version": "15.0.1.0.0",
+    "version": "15.0.1.0.1",
     "category": "Accounting",
     "website": "https://github.com/juanpgarza/account-addons",
     "author": "juanpgarza",
@@ -13,6 +13,7 @@
         "account",
         ],
     "data": [
+        'data/point_of_payment_data.xml',
         'security/pop_security.xml',
         'security/ir.model.access.csv',
         'views/account_journal_views.xml',
