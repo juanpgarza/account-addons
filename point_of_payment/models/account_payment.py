@@ -129,6 +129,9 @@ class AccountPayment(models.Model):
 
         # cuando es una transferencia interna, no pasa por el payment_group
         # entonces el payment no toma los valores de pop_id y pop_session_id
+        # los tengo que informar si o si porque no encuentro la forma de quitarle el dominio al journal
+        # importante a tener en cuenta es que la sesión de caja tiene que tener todos los medios de pago habilitados
+        # para mantener la coherencia, me está faltando filtrar el journal destino con los mp habilitados por la caja
         if "is_internal_transfer" in res and res["is_internal_transfer"]:
             res['journal_id'] = False
             res['pop_id'] = pop_id.id
