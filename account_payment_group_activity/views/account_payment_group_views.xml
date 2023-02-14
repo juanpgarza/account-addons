@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="purchase_order_form" model="ir.ui.view">
+        <field name="name">account.payment.group.form</field>
+        <field name="model">account.payment.group</field>
+        <field name="priority">10</field>
+        <field name="inherit_id" ref="account_payment_group.view_account_payment_group_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_chatter')]" position="inside">
+                <field name="activity_ids" widget="mail_activity"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
