@@ -13,6 +13,10 @@
         "l10n_latam_check",
         ],
     "data": [
+        'security/ir.model.access.csv',
+        'wizard/account_check_action_wizard_view.xml',
+        'views/account_payment_view.xml',
+        'views/company.xml',
         ],
     "installable": True,
 }
