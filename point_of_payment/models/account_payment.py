@@ -13,13 +13,13 @@ class AccountPayment(models.Model):
     pop_id = fields.Many2one('pop.config',
         string='Caja',
         ondelete='Restrict',
-        readonly=True,
+        # readonly=True,
     )
 
     pop_session_id = fields.Many2one('pop.session',
         string='Sesión de caja',
         ondelete='Restrict',
-        readonly=True,
+        # readonly=True,
     )
 
     pop_session_journal_line_ids = fields.One2many('pop.session.journal.line', 'account_payment_id', string='Renglones de caja')
@@ -30,6 +30,8 @@ class AccountPayment(models.Model):
         super(AccountPayment,self).action_post()
 
         for rec in self:
+
+            pop_session_id = rec.pop_id.current_session_id
 
             if rec.is_internal_transfer:
                 continue
@@ -50,7 +52,7 @@ class AccountPayment(models.Model):
                 'partner_id': self.partner_id.id,
                 'ref': rec._get_payment_ref(ref, inbound_payment_method_codes),
                 'account_payment_id': rec.id,
-                'pop_session_journal_id': rec.pop_session_id.get_session_journal_id(rec.journal_id).id
+                'pop_session_journal_id': pop_session_id.get_session_journal_id(rec.journal_id).id
             }
 
             self.env['pop.session.journal.line'].create(vals)
@@ -69,7 +71,9 @@ class AccountPayment(models.Model):
             pop_session_id = pop_id.current_session_id
 
             if not pop_session_id:
-                raise UserError(_("Debe iniciar una sesión de la caja '%s', para poder cancelar el recibo." % pop_id.name))
+                # raise UserError(_("Debe iniciar una sesión de la caja '%s', para poder cancelar el recibo." % pop_id.name))
+                # por ahora lo controlo en account_payment_group
+                return True
             else:
 
                 if len(self) > 0:
@@ -118,11 +122,16 @@ class AccountPayment(models.Model):
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
+
         pop_id = self.env.user.get_selected_pop_id()
         if pop_id.current_session_state != 'opened':
             raise UserError("Debe iniciar una sesión de la caja {} para continuar".format(pop_id.name))
+
         # cuando es una transferencia interna, no pasa por el payment_group
         # entonces el payment no toma los valores de pop_id y pop_session_id
+        # los tengo que informar si o si porque no encuentro la forma de quitarle el dominio al journal
+        # importante a tener en cuenta es que la sesión de caja tiene que tener todos los medios de pago habilitados
+        # para mantener la coherencia, me está faltando filtrar el journal destino con los mp habilitados por la caja
         if "is_internal_transfer" in res and res["is_internal_transfer"]:
             res['journal_id'] = False
             res['pop_id'] = pop_id.id

@@ -3,8 +3,8 @@
 
 from odoo import models, fields, api
 
-class BoxSessionCashReason(models.Model):
-	_name = 'box.session.cash.move.reason'
+class PopSessionCashReason(models.Model):
+	_name = 'pop.session.cash.move.reason'
 	_description = 'Motivo de movimiento de efectivo'
 
 	name = fields.Char('Descripción')

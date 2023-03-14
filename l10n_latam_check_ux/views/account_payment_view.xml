@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+    <record id="view_account_payment_form" model="ir.ui.view">
+        <field name="name">account.payment.form</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form" />
+        <field name="arch" type="xml">
+            <header position="inside">
+                <!-- attrs="{'invisible': ['|',('state', '!=', 'posted'),('l10n_latam_check_current_journal_id.inbound_payment_method_line_ids.payment_method_id.code', '!=', 'in_third_party_checks')]}" -->
+                <button context="{'default_action_type': 'reject'}" name="%(action_account_check_wizard)d" type="action" string="Rechazo del proveedor" attrs="{'invisible': [('l10n_latam_check_reject_state', '!=', 'no_rejected')]}" help=""/>
+                <button context="{'default_action_type': 'reject_bank'}" name="%(action_account_check_wizard)d" type="action" string="Rechazo del banco" attrs="{'invisible': [('l10n_latam_check_reject_state', '!=', 'no_rejected')]}" help=""/>
+                <button context="{'default_action_type': 'claim'}" name="%(action_account_check_wizard)d" type="action" string="Reclamar al cliente" attrs="{'invisible': [('l10n_latam_check_reject_state', 'not in', ('rejected','rejected_bank'))]}" help=""/>
+            </header>
+            <field name="date" position="after">
+                <field name="l10n_latam_check_reject_state" readonly="1" attrs="{'invisible':[('check_number', '=', False)]}" />                
+            </field>
+        </field>
+    </record>
+
+    <!-- <record model="ir.ui.view" id="view_account_own_check_tree">
+        <field name="name">account.check.tree</field>
+        <field name="model">account.payment</field>
+        <field name="priority">100</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="l10n_latam_check.view_account_third_party_check_tree"/>
+        <field name="arch" type="xml">
+            <field name="l10n_latam_check_current_journal_id" position="after">
+                <field name="l10n_latam_check_reject_state" string="Estado del cheque" optional="show"/>
+            </field>
+
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_payment_search">
+        <field name="name">account.check.search</field>
+        <field name="model">account.payment</field>
+        <field name="priority">20</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="account.view_account_payment_search"/>
+        <field name="arch" type="xml">
+            <filter name="groupby_date" position="after">
+                <filter string="Estado del rechazo" name="groupby_l10n_latam_check_reject_state" domain="[]" context="{'group_by': 'l10n_latam_check_reject_state'}"/>
+            </filter>
+        </field>
+    </record> -->
+</odoo>

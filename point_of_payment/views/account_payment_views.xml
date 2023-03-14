@@ -11,8 +11,8 @@
 
                 <!-- <field name="pop_id" attrs="{'invisible' : [('payment_type', '=', 'transfer')], 'required': True, 'readonly': True}"/>
                 <field name="pop_session_id" attrs="{'invisible' : [('payment_type', '=', 'transfer')], 'required': True, 'readonly': True}"/> -->
-                <field name="pop_id" force_save="1" attrs="{'invisible' : [('is_internal_transfer', '=', True)]}"/>
-                <field name="pop_session_id" force_save="1" attrs="{'invisible' : [('is_internal_transfer', '=', True)]}"/>
+                <field name="pop_id" force_save="1" readonly="1" />
+                <field name="pop_session_id" force_save="1" readonly="1" />
                 <field name="pop_session_journal_ids" invisible="1"/>
 
             </field>

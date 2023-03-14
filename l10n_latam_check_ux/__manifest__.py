@@ -2,23 +2,21 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Account Payment Credit Card Customer",
+    "name": "l10n_latam_check_ux",
     "summary": "",
-    "version": "15.0.1.1.0",
-    "category": "Account",
+    "version": "15.0.1.0.0",
+    "category": "Accounting",
     "website": "https://github.com/juanpgarza/account-addons",
     "author": "juanpgarza",
     "license": "AGPL-3",
     "depends": [
-        "account",
-        "account_payment_group",
+        "l10n_latam_check",
         ],
     "data": [
-        # 'data/account_payment_method_data.xml',
         'security/ir.model.access.csv',
-        'views/account_journal_views.xml',
-        'views/account_payment_views.xml',
-        'views/account_payment_plan_tarjeta_views.xml',        
+        'wizard/account_check_action_wizard_view.xml',
+        'views/account_payment_view.xml',
+        'views/company.xml',
         ],
     "installable": True,
 }

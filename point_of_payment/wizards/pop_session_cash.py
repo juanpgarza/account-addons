@@ -16,7 +16,7 @@ class PopSessionCashIn(models.TransientModel):
 
     description = fields.Char(string='Descripción')
 
-    reason_id = fields.Many2one(comodel_name="box.session.cash.move.reason", string= 'Motivo de movimiento', domain=[('in_reason','=',True)])
+    reason_id = fields.Many2one(comodel_name="pop.session.cash.move.reason", string= 'Motivo de movimiento', domain=[('in_reason','=',True)])
 
     session_journal_ids = fields.Many2many('account.journal',related='pop_session_id.journal_ids')
 
@@ -51,7 +51,7 @@ class PopSessionCashOut(models.TransientModel):
 
     description = fields.Char(string='Descripción')
 
-    reason_id = fields.Many2one(comodel_name="box.session.cash.move.reason", string= 'Motivo de movimiento', domain=[('out_reason','=',True)])
+    reason_id = fields.Many2one(comodel_name="pop.session.cash.move.reason", string= 'Motivo de movimiento', domain=[('out_reason','=',True)])
 
     session_journal_ids = fields.Many2many('account.journal',related='pop_session_id.journal_ids')
 

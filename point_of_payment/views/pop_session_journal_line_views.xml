@@ -27,5 +27,56 @@
         </field>
     </record>
 
+    <record id="view_pop_session_tree" model="ir.ui.view">
+        <field name="name">pop.session.tree.view</field>
+        <field name="model">pop.session.journal.line</field>
+        <field name="arch" type="xml">
+            <tree default_order="pop_session_id asc" create="false" delete="false" edit="false">
+                <field name="pop_id"/>
+                <field name="pop_session_id"/>
+                <field name="journal_id"/>
+                <field name="date"/>
+                <field name="account_payment_id"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="amount"/>
+                <field name="reason_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_pop_session_search" model="ir.ui.view">
+        <field name="name">pop.session.journal.line.search</field>
+        <field name="model">pop.session.journal.line</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="pop_id"/>
+                <field name="pop_session_id"/>
+                <field name="journal_id"/>
+                <field name="date"/>
+                <field name="account_payment_id"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="amount"/>
+                <field name="reason_id"/>
+                <separator/>
+                <group expand="1" string="Group By">
+                    <filter string="Caja" name="caja" context="{'group_by':'pop_id'}"/>
+                    <filter string="Sesión" name="sesion" context="{'group_by':'pop_session_id'}"/>
+                    <filter string="Diario" name="diario" context="{'group_by':'journal_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="pop_session_journal_line_action" model="ir.actions.act_window">
+        <field name="name">Detalle de movimientos de caja</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">pop.session.journal.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="context">{'search_default_caja': 1,'search_default_sesion': 1,'search_default_diario': 1, }</field>
+    </record>
+    
   </data>
 </odoo>

@@ -31,7 +31,42 @@ class AccountPaymentGroup(models.Model):
         res = super().default_get(fields_list)
         pop_id = self.env.user.get_selected_pop_id()
         if pop_id.current_session_state != 'opened':
-            raise UserError("Debe iniciar una sesión de caja para continuar")        
+            raise UserError("Debe iniciar una sesión de la caja '{}' para continuar (o seleccionar otra caja)".format(pop_id.name))        
         res['pop_id'] = pop_id.id
         res['pop_session_id'] = pop_id.current_session_id.id
+        return res
+
+    def post(self):
+        # import pdb; pdb.set_trace()
+        res = super().post()
+        user_pop_id = self.env.user.get_selected_pop_id()
+        
+        # controlo que la caja informada en el recibo coincida con la caja del usuario
+        for rec in self:
+            if rec.pop_id != user_pop_id:
+                raise UserError("Ud. tiene seleccionada la caja '{}' pero el comprobante pertenece a la caja '{}'.".format(user_pop_id.name, rec.pop_id.name))
+
+        if user_pop_id.current_session_state != 'opened':
+            raise UserError("Debe iniciar una sesión de la caja '{}' para continuar.".format(user_pop_id.name))
+        
+        # sino coincide la sesión del recibo con la sesión abierta. ACTUALIZO el recibo
+        for rec in self:
+            if rec.pop_session_id != rec.pop_id.current_session_id:
+                rec.pop_session_id = rec.pop_id.current_session_id
+                for payment in rec.payment_ids:
+                    payment.pop_session_id = rec.pop_id.current_session_id
+
+    def cancel(self):
+        # import pdb; pdb.set_trace()
+        # raise UserError("")
+        res = super().cancel()
+        user_pop_id = self.env.user.get_selected_pop_id()
+        
+        for rec in self:
+            if rec.pop_id != user_pop_id:
+                raise UserError("Ud. tiene seleccionada la caja '{}' pero el comprobante pertenece a la caja '{}'.".format(user_pop_id.name, rec.pop_id.name))
+
+        if user_pop_id.current_session_state != 'opened':
+            raise UserError("Debe iniciar una sesión de la caja '{}' para continuar.".format(user_pop_id.name))
+
         return res

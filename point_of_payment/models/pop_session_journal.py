@@ -45,7 +45,7 @@ class PopSessionJournal(models.Model):
     balance_end = fields.Monetary('Saldo final calculado', compute='_end_balance', store=True, help='Balance as calculated based on Opening Balance and transaction lines')
     total_entry_encoding = fields.Monetary('Transacciones', compute='_end_balance', store=True, help="Total of transaction lines.")
     balance_end_real = fields.Monetary('Saldo final')
-    difference = fields.Monetary(compute='_end_balance', store=True, help="Difference between the computed ending balance and the specified ending balance.")
+    difference = fields.Monetary(string="Diferencia", compute='_end_balance', store=True, help="Difference between the computed ending balance and the specified ending balance.")
 
     currency_id = fields.Many2one('res.currency', compute='_compute_currency', string="Moneda")
 
