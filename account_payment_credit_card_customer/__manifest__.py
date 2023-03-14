@@ -14,7 +14,7 @@
         "account_payment_group",
         ],
     "data": [
-        'data/account_payment_method_data.xml',
+        # 'data/account_payment_method_data.xml',
         'security/ir.model.access.csv',
         'views/account_journal_views.xml',
         'views/account_payment_views.xml',
