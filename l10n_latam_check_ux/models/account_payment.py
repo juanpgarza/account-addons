@@ -19,26 +19,6 @@ class AccountPayment(models.Model):
     required=True,
     )
 
-    # first_partner_id = fields.Many2one(
-    #     'res.partner',
-    #     compute='_compute_partners',
-    #     string='Empresa de primera operación',
-    #     readonly=True,
-    #     store=True,
-    # )
-
-    # @api.depends('l10n_latam_check_operation_ids.partner_id')
-    # def _compute_partners(self):
-    #     for rec in self:
-    #         if not rec.l10n_latam_check_operation_ids:
-    #             # rec.partner_id = False
-    #             rec.first_partner_id = rec.partner_id
-    #             continue
-    #         # operations = rec.l10n_latam_check_operation_ids.sorted()
-    #         # import pdb; pdb.set_trace()
-    #         # rec.first_partner_id = operations[0].partner_id
-    #         # rec.partner_id = operations[0].partner_id
-
     def _get_operation(self, operation, partner_required=False):
         self.ensure_one()
         op = self.l10n_latam_check_operation_ids.filtered(lambda x: x.state == 'posted' and x.payment_type == 'outbound')        
@@ -65,8 +45,11 @@ class AccountPayment(models.Model):
         # obtiene la ultima operación del flujo del cheque de tercero 
         operation = self._get_operation(self.state, True)
         if not operation:
-            raise ValidationError("El estado actual del cheque no es válido para esta operación")
-        
+            # No hay registrada una operación de salida (Entregar) para el cheque
+            raise ValidationError("El estado actual del cheque no es válido para esta operación (No existe una operación de salida)")
+        if self.l10n_latam_check_current_journal_id:
+            # cuando es rechazo del proveedor, el cheque no está en ningún diario (ya que fue entregado al proveedor)
+            raise ValidationError("El estado actual del cheque no es válido para esta operación (No fue entregado a un proveedor)")
         self.l10n_latam_check_reject_state = 'rejected'
         return self.action_create_debit_note(
                 'rejected', 'supplier', operation.partner_id)
@@ -75,7 +58,11 @@ class AccountPayment(models.Model):
         self.ensure_one()
         operation = self._get_operation(self.state, True)
         if not operation:
-            raise ValidationError("El estado actual del cheque no es válido para esta operación")
+            # No hay registrada una operación de salida (Entregar) para el cheque
+            raise ValidationError("El estado actual del cheque no es válido para esta operación (No existe una operación de salida)")
+        if not self.l10n_latam_check_current_journal_id:
+            # cuando es rechazo del banco, el cheque debe estar en algún diario (de algún banco)
+            raise ValidationError("El estado actual del cheque no es válido para esta operación (No fue depositado)")
         self.l10n_latam_check_reject_state = 'rejected_bank'
         return
 
