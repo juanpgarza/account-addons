@@ -8,9 +8,9 @@
         <field name="arch" type="xml">
             <header position="inside">
                 <!-- attrs="{'invisible': ['|',('state', '!=', 'posted'),('l10n_latam_check_current_journal_id.inbound_payment_method_line_ids.payment_method_id.code', '!=', 'in_third_party_checks')]}" -->
-                <button context="{'default_action_type': 'reject'}" name="%(action_account_check_wizard)d" type="action" string="Rechazo del proveedor" attrs="{'invisible': [('l10n_latam_check_reject_state', '!=', 'no_rejected')]}" help=""/>
-                <button context="{'default_action_type': 'reject_bank'}" name="%(action_account_check_wizard)d" type="action" string="Rechazo del banco" attrs="{'invisible': [('l10n_latam_check_reject_state', '!=', 'no_rejected')]}" help=""/>
-                <button context="{'default_action_type': 'claim'}" name="%(action_account_check_wizard)d" type="action" string="Reclamar al cliente" attrs="{'invisible': [('l10n_latam_check_reject_state', 'not in', ('rejected','rejected_bank'))]}" help=""/>
+                <button context="{'default_action_type': 'reject'}" name="%(action_account_check_wizard)d" type="action" string="Rechazo del proveedor" attrs="{'invisible': ['|', ('payment_method_code', '!=', 'new_third_party_checks'),('l10n_latam_check_reject_state', '!=', 'no_rejected')]}" help=""/>
+                <button context="{'default_action_type': 'reject_bank'}" name="%(action_account_check_wizard)d" type="action" string="Rechazo del banco" attrs="{'invisible': ['|', ('payment_method_code', '!=', 'new_third_party_checks'),('l10n_latam_check_reject_state', '!=', 'no_rejected')]}" help=""/>
+                <button context="{'default_action_type': 'claim'}" name="%(action_account_check_wizard)d" type="action" string="Reclamar al cliente" attrs="{'invisible': ['|', ('payment_method_code', '!=', 'new_third_party_checks'),('l10n_latam_check_reject_state', 'not in', ('rejected','rejected_bank'))]}" help=""/>
             </header>
             <field name="date" position="after">
                 <field name="l10n_latam_check_reject_state" readonly="1" attrs="{'invisible':[('check_number', '=', False)]}" />                
