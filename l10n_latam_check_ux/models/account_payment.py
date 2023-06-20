@@ -128,7 +128,7 @@ class AccountPayment(models.Model):
             # this is the reference that goes on account.move.line of debt line
             # 'name': name,
             # this is the reference that goes on account.move
-            'rejected_check_id': self.id,
+            'rejected_check_id_ux': self.id,
             'ref': name,
             'invoice_date': action_date,
             'invoice_origin': _('Check nbr (id): %s (%s)') % (self.name, self.id),

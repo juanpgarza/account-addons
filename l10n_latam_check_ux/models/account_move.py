@@ -8,7 +8,7 @@ from odoo import models, fields
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
-    rejected_check_id = fields.Many2one(
+    rejected_check_id_ux = fields.Many2one(
         'account.payment',
         'Rejected Check',
     )
