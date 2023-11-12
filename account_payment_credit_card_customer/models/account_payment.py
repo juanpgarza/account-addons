@@ -9,11 +9,11 @@ class AccountPayment(models.Model):
     _inherit = 'account.payment'
 
     is_credit_card = fields.Boolean('Es tarjeta de credito',related='journal_id.is_credit_card')
-    nro_cupon = fields.Char('Nro Cupon')
-    nro_tarjeta = fields.Char('Nro Tarjeta')
+    nro_cupon = fields.Char('N° Cupon')
+    nro_tarjeta = fields.Char('N° Tarjeta')
     cant_cuotas = fields.Integer('Cuotas')
     plan_tarjeta_id = fields.Many2one('account.payment.plan.tarjeta',string='Plan Tarjeta', ondelete='Restrict')
-    nro_lote = fields.Integer('Nro lote')
+    nro_lote = fields.Integer('N° Lote')
 
     @api.constrains('nro_cupon','nro_lote')
     def _check_pago_tarjeta(self):
