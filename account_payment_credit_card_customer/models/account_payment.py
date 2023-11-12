@@ -13,7 +13,7 @@ class AccountPayment(models.Model):
     nro_tarjeta = fields.Char('N° Tarjeta')
     cant_cuotas = fields.Integer('Cuotas')
     plan_tarjeta_id = fields.Many2one('account.payment.plan.tarjeta',string='Plan Tarjeta', ondelete='Restrict')
-    nro_lote = fields.Integer('N° Lote')
+    nro_lote = fields.Char('N° Lote')
 
     @api.constrains('nro_cupon','nro_lote')
     def _check_pago_tarjeta(self):
