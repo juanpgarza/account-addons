@@ -1,65 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record id="view_account_payment_form" model="ir.ui.view">
-        <field name="name">account.payment.form</field>
-        <field name="model">account.payment</field>
-        <field name="inherit_id" ref="account.view_account_payment_form"/>
+    <record id="account_payment_plan_tarjeta_form_view" model="ir.ui.view">
+        <field name="name">Planes de Tarjetas</field>
+        <field name="model">account.payment.plan.tarjeta</field>
         <field name="arch" type="xml">
-            <field name="journal_id" position="after">
-                <field name="is_credit_card" invisible="1" />
-                <field name="plan_tarjeta_id"
-                domain="[('journal_id','=',journal_id)]"
-                context="{'default_journal_id': journal_id}"
-                attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
-                <field name="nro_lote" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
-                <field name="nro_cupon" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
-            </field>
+            <form string="Planes de Tarjetas">
+                <header>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="active_button_box">
+                        <button name="toggle_active" type="object"
+                                class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="journal_id"/>
+                    </group>
+                </sheet>
+            </form>
         </field>
     </record>
 
-    <record id="view_pagos_tarjeta_tree" model="ir.ui.view">
-            <field name="name">view.pagos.tarjeta.tree</field>
-            <field name="model">account.payment</field>
-            <field name="arch" type="xml">
-            <tree string="Pagos con Tarjeta" >
-                <field name="date"/>
-                <field name="display_name"/>
-                <field name="partner_id"/>
-                <field name="journal_id" groups="account.group_account_user"/>
-                <field name="plan_tarjeta_id" />
-                <field name="nro_lote" />
-                <field name="nro_cupon" />
-                <!-- <field name="payment_type_copy" invisible="context.get('visible', True)"/> -->
-                <field name="amount" sum="Total Amount"/>
-                <field name="state"/>
-            </tree>
+    <record id="account_payment_plan_tarjeta_search_view" model="ir.ui.view">
+        <field name="model">account.payment.plan.tarjeta</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter string="Archivado" name="archivado" domain="[('active','=',False)]"/>
+            </search>
+        </field>
+    </record>   
+
+    <record id="account_payment_plan_tarjeta_tree_view" model="ir.ui.view">
+        <field name="name">account.payment.plan.tarjeta.tree</field>
+        <field name="model">account.payment.plan.tarjeta</field>
+        <field name="arch" type="xml">
+		<tree string="Planes de Tarjetas" >
+			<field name="name" />     
+            <field name="journal_id" />       
+		</tree>
 	    </field>
 	</record>
 
-    <record id="view_pagos_tarjeta_search" model="ir.ui.view">
-        <field name="name">view.pagos.tarjeta.search</field>
-        <field name="model">account.payment</field>
-        <field name="inherit_id" ref="account.view_account_payment_search" />
-        <field name="arch" type="xml">
-            <field name="company_id" position="after">
-                <field name="nro_tarjeta" string="N° Tarjeta"/>
-                <field name="plan_tarjeta_id" string="Plan Tarjeta"/>
-                <field name="nro_cupon" string="Cupon"/>
-            </field>
-        </field>
-	</record>
-
-    <record id="action_view_pagos_tarjeta" model="ir.actions.act_window">
-        <field name="name">Pagos con Tarjeta</field>
-        <field name="res_model">account.payment</field>
-        <!-- <field name="view_type">form</field> -->
-        <field name="view_id" ref="view_pagos_tarjeta_tree" />
-        <field name="domain">[('is_credit_card','=','1')]</field>
+    <record id="action_plan_tarjeta" model="ir.actions.act_window">
+        <field name="name">Planes de Tarjetas</field>
+        <field name="res_model">account.payment.plan.tarjeta</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem action="action_view_pagos_tarjeta" id="menu_pagos_tarjeta_credito"
-            parent="account_payment_group.menu_finance_bank_and_cash"/>
+    <menuitem action="action_plan_tarjeta" id="menu_plan_tarjeta" 
+    parent="account.account_management_menu" name="Plan Tarjetas" sequence="2" />
 
 </odoo>
