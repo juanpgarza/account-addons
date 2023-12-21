@@ -43,7 +43,7 @@ class AccountMove(models.Model):
                 refs.append(", ".join(ref_parts))
             record.ref = ", ".join(refs)
 
-    ref = fields.Char(compute='_compute_ref', store=True)
+    ref = fields.Char(compute='_compute_ref', store=True, readonly=False, force_save=True)
 
 
 
