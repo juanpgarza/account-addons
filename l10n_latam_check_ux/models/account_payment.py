@@ -19,6 +19,8 @@ class AccountPayment(models.Model):
     required=True,
     )
 
+    no_a_la_orden = fields.Boolean('No a la orden?',default=False)
+
     # first_partner_id = fields.Many2one(
     #     'res.partner',
     #     compute='_compute_partners',

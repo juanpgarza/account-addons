@@ -7,4 +7,4 @@ Mejoras al módulo de cheques
 #. Operación "Rechazo del proveedor". Genera ND al proveedor y cambia el estado del rechazo a "Rechazado por un proveedor"
 #. Operación "Rechazo del banco". Cambia el estado del rechazo a "Rechazado por el banco"
 #. Operación "Reclamar al cliente". Genera ND al cliente y cambia el estado del rechazo a "Reclamado"
-
+#. Marca "No a la orden"

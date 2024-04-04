@@ -4,12 +4,14 @@
 {
     "name": "l10n_latam_check_ux",
     "summary": "",
-    "version": "15.0.1.0.0",
+    "version": "15.0.1.1.0",
     "category": "Accounting",
     "website": "https://github.com/juanpgarza/account-addons",
     "author": "juanpgarza",
     "license": "AGPL-3",
     "depends": [
+        "account",
+        "account_payment_group",
         "l10n_latam_check",
         ],
     "data": [

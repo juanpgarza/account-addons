@@ -15,6 +15,10 @@
             <field name="date" position="after">
                 <field name="l10n_latam_check_reject_state" readonly="1" attrs="{'invisible':[('check_number', '=', False)]}" />                
             </field>
+            <field name="l10n_latam_check_issuer_vat" position="after">
+                <field name="no_a_la_orden" 
+                       attrs="{'invisible': [('payment_method_code', '!=', 'new_third_party_checks')]}"/>
+            </field>   
         </field>
     </record>
 
