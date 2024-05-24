@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+account_outcome_category.access_account_outcome_category1,access_account_outcome_category1,account_outcome_category.model_account_outcome_category1,base.group_user,1,1,1,1
+account_outcome_category.access_account_outcome_category2,access_account_outcome_category2,account_outcome_category.model_account_outcome_category2,base.group_user,1,1,1,1

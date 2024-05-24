@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- <record id="view_account_move_filter" model="ir.ui.view">
+        <field name="name">account.move.filter</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_move_filter"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="l10n_ar_afip_responsibility_type_id"/>
+            </field>
+            <group>
+                <filter string="AFIP Responsibility Type" domain="[]" name="l10n_ar_afip_responsibility_type_id_filter" context="{'group_by':'l10n_ar_afip_responsibility_type_id'}"/>
+            </group>
+        </field>
+    </record> -->
+
+    <record id="view_move_form" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+			<group id="other_tab_group" position="inside">
+                <group name="outcomer_group" string="Clasificación de gastos" attrs="{'invisible': [('move_type', 'in', ('out_invoice','out_refund'))]}">
+                    <field name="account_outcome_category_1"/>
+                    <field name="account_outcome_category_2"/>
+                    <field name="account_outcome_category_multiple"/>                    
+                </group>
+            </group>
+            <xpath expr="//form//field[@name='credit']" position="after">
+                <field name="account_outcome_category_1" attrs="{'column_invisible': [('parent.move_type', 'in', ('out_invoice','out_refund'))]}" optional="show" />
+                <field name="account_outcome_category_2" attrs="{'column_invisible': [('parent.move_type', 'in', ('out_invoice','out_refund'))]}" optional="show" />
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
