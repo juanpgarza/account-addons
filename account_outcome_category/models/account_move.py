@@ -10,7 +10,7 @@ class AccountMove(models.Model):
 
     account_outcome_category_2 = fields.Many2one('account.outcome.category2', string="Categoría 2",)
 
-    account_outcome_category_multiple = fields.Selection(selection=[('no', 'No'), ('yes', 'Si'), ], string="Múltiples categorías?",)
+    account_outcome_category_multiple = fields.Selection(selection=[('no', 'No'), ('yes', 'Si'), ], string="Múltiples categorías?",copy=False)
 
     def write(self, values):
         super(AccountMove,self).write(values)
