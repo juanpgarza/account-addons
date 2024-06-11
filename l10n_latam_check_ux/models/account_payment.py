@@ -21,6 +21,39 @@ class AccountPayment(models.Model):
 
     no_a_la_orden = fields.Boolean('No a la orden?',default=False)
 
+    l10n_latam_check_state = fields.Selection([
+        ('en_mano', 'En mano'),
+        ('endosado', 'Endosado'),
+        ('depositado', 'Depositado (Pendiente de cobro)'),
+        ('depositado-cobrado', 'Depositado y Cobrado'),
+    ],
+    string='Estado del cheque',
+    store=True,
+    tracking=True,
+    compute='_compute_check_state'
+    )
+
+    @api.depends('l10n_latam_check_operation_ids','l10n_latam_check_operation_ids.is_matched','l10n_latam_check_current_journal_id')
+    def _compute_check_state(self):
+        for rec in self:
+            if rec.payment_method_code == 'new_third_party_checks':
+                # es un cheque
+                if rec.l10n_latam_check_current_journal_id:
+                    # tiene informado un diario actual
+                    # entonces, o está en mano o lo depositamos y está en el diario del banco
+                    if 'in_third_party_checks' in rec.l10n_latam_check_current_journal_id.inbound_payment_method_line_ids.mapped('payment_method_id.code'):
+                        rec.l10n_latam_check_state = 'en_mano'
+                    else:                        
+                        operation = rec.l10n_latam_check_operation_ids.filtered(lambda x: x.payment_type == 'inbound' and  x.journal_id == rec.l10n_latam_check_current_journal_id)
+                        if operation.is_matched:
+                            rec.l10n_latam_check_state = 'depositado-cobrado'
+                        else:
+                            rec.l10n_latam_check_state = 'depositado'
+                else:
+                    rec.l10n_latam_check_state = 'endosado'
+            else:
+                rec.l10n_latam_check_state = False
+
     # first_partner_id = fields.Many2one(
     #     'res.partner',
     #     compute='_compute_partners',

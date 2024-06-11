@@ -18,7 +18,31 @@
             <field name="l10n_latam_check_issuer_vat" position="after">
                 <field name="no_a_la_orden" 
                        attrs="{'invisible': [('payment_method_code', '!=', 'new_third_party_checks')]}"/>
+                <field name="l10n_latam_check_state" 
+                       attrs="{'invisible': [('payment_method_code', '!=', 'new_third_party_checks')]}"/>                       
             </field>   
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_own_check_tree">
+        <field name="name">account.check.tree</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="l10n_latam_check.view_account_third_party_check_tree"/>
+        <field name="arch" type="xml">
+            <field name="l10n_latam_check_current_journal_id" position="after">
+                <field name="l10n_latam_check_state" string="Estado del cheque" optional="show"/>
+            </field>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_account_payment_search">
+        <field name="name">account.check.search</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="l10n_latam_check.view_account_payment_search"/>
+        <field name="arch" type="xml">
+            <filter name="groupby_date" position="after">
+                <filter string="Estado del cheque" name="groupby_l10n_latam_check_state" domain="[]" context="{'group_by': 'l10n_latam_check_state'}"/>
+            </filter>
         </field>
     </record>
 

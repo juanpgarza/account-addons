@@ -9,3 +9,4 @@ Mejoras al módulo de cheques
 #. Operación "Reclamar al cliente". Genera ND al cliente y cambia el estado del rechazo a "Reclamado"
 #. Marca "No a la orden"
 #. Control de Nro de cheques repetidos en Ordenes de Pago
+#. Agregar campo estado del cheque que permite clasificarlos en 'En Mano', 'Endosado', 'Depositado' y 'Depositado y Cobrado'

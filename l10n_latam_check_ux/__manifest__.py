@@ -4,7 +4,7 @@
 {
     "name": "l10n_latam_check_ux",
     "summary": "",
-    "version": "15.0.1.1.1",
+    "version": "15.0.1.2.0",
     "category": "Accounting",
     "website": "https://github.com/juanpgarza/account-addons",
     "author": "juanpgarza",
