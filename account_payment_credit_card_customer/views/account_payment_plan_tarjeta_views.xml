@@ -2,10 +2,10 @@
 <odoo>
 
     <record id="account_payment_plan_tarjeta_form_view" model="ir.ui.view">
-        <field name="name">Planes de tarjetas</field>
+        <field name="name">Planes de Tarjetas</field>
         <field name="model">account.payment.plan.tarjeta</field>
         <field name="arch" type="xml">
-            <form string="Planes de tarjetas">
+            <form string="Planes de Tarjetas">
                 <header>
                 </header>
                 <sheet>
@@ -38,7 +38,7 @@
         <field name="name">account.payment.plan.tarjeta.tree</field>
         <field name="model">account.payment.plan.tarjeta</field>
         <field name="arch" type="xml">
-		<tree string="plan de Tarjeta" >
+		<tree string="Planes de Tarjetas" >
 			<field name="name" />     
             <field name="journal_id" />       
 		</tree>
