@@ -20,5 +20,5 @@
         'views/account_payment_views.xml',
         'views/account_payment_plan_tarjeta_views.xml',        
         ],
-    "installable": True,
+    "installable": False,
 }

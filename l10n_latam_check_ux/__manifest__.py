@@ -20,5 +20,5 @@
         'views/account_payment_view.xml',
         'views/company.xml',
         ],
-    "installable": True,
+    "installable": False,
 }

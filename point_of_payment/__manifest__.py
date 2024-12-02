@@ -29,6 +29,6 @@
          'views/menus.xml',
         ],
     "development_status": "Production/Stable",
-    "installable": True,
+    "installable": False,
     "application": True,
 }

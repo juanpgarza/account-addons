@@ -15,5 +15,5 @@
     "data": [
         'views/account_payment_group_views.xml',
         ],
-    "installable": True,
+    "installable": False,
 }
