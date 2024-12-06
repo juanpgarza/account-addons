@@ -21,15 +21,15 @@
         <field name="inherit_id" ref="account.view_move_form"/>
         <field name="arch" type="xml">
 			<group id="other_tab_group" position="inside">
-                <group name="outcomer_group" string="Clasificación de gastos" attrs="{'invisible': [('move_type', 'in', ('out_invoice','out_refund'))]}">
+                <group name="outcomer_group" string="Clasificación de gastos" invisible="move_type in ('out_invoice', 'out_refund')">
                     <field name="account_outcome_category_1"/>
                     <field name="account_outcome_category_2"/>
                     <field name="account_outcome_category_multiple"/>                    
                 </group>
             </group>
             <xpath expr="//form//field[@name='credit']" position="after">
-                <field name="account_outcome_category_1" attrs="{'column_invisible': [('parent.move_type', 'in', ('out_invoice','out_refund'))]}" optional="show" />
-                <field name="account_outcome_category_2" attrs="{'column_invisible': [('parent.move_type', 'in', ('out_invoice','out_refund'))]}" optional="show" />
+                <field name="account_outcome_category_1" column_invisible="parent.move_type in ('out_invoice', 'out_refund')" optional="show" />
+                <field name="account_outcome_category_2" column_invisible="parent.move_type in ('out_invoice', 'out_refund')" optional="show" />
             </xpath>
         </field>
     </record>
