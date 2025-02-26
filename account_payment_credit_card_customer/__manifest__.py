@@ -4,14 +4,15 @@
 {
     "name": "Account Payment Credit Card Customer",
     "summary": "",
-    "version": "15.0.1.1.0",
+    "version": "17.0.1.0.0",
     "category": "Account",
     "website": "https://github.com/juanpgarza/account-addons",
     "author": "juanpgarza",
     "license": "AGPL-3",
     "depends": [
         "account",
-        "account_payment_group",
+        "account_ux", # para el menu
+        # "account_payment_group",
         ],
     "data": [
         # 'data/account_payment_method_data.xml',
@@ -20,5 +21,5 @@
         'views/account_payment_views.xml',
         'views/account_payment_plan_tarjeta_views.xml',        
         ],
-    "installable": False,
+    "installable": True,
 }

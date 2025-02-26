@@ -11,9 +11,9 @@
                 <field name="plan_tarjeta_id"
                 domain="[('journal_id','=',journal_id)]"
                 context="{'default_journal_id': journal_id}"
-                attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
-                <field name="nro_cupon" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
-                <field name="nro_lote" attrs="{'invisible': [('is_credit_card', '=', False)]}"/>
+                invisible="not is_credit_card"/>                
+                <field name="nro_cupon" invisible="not is_credit_card"/>
+                <field name="nro_lote" invisible="not is_credit_card"/>
             </field>
         </field>
     </record>
@@ -60,6 +60,6 @@
     </record>
 
     <menuitem action="action_view_pagos_tarjeta" id="menu_pagos_tarjeta_credito"
-            parent="account_payment_group.menu_finance_bank_and_cash"/>
+            parent="account_ux.menu_finance_bank_and_cash"/>
 
 </odoo>
