@@ -41,6 +41,7 @@ class ResCurrency(models.Model):
                 response = client.service.FEParamGetCotizacion(auth, **req_data)
                 if response.Errors:
                     if response.Errors.Err[0].Code == 602:  # Not found rate for the given date
+                        import pdb; pdb.set_trace()
                         return date_rate, False
                     raise UserError(_('The was an error obtaining the rate:\n\n * Code %s -  %s',
                                     response.Errors.Err[0].Code, response.Errors.Err[0].Msg))
@@ -66,8 +67,10 @@ class ResCurrency(models.Model):
         arca_date = False
         max_tries = try_count = 15
         while not arca_rate and try_count:
-            arca_date, arca_rate = self._l10n_ar_get_afip_ws_currency_rate(afip_ws, date_rate=from_date)
+            import pdb; pdb.set_trace()
+            arca_date, arca_rate = self._l10n_ar_get_afip_ws_currency_rate(afip_ws, date_rate=from_date)            
             if not arca_rate:
+                import pdb; pdb.set_trace()
                 from_date = from_date - relativedelta(days=1)
             try_count -= 1
 
