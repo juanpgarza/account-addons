@@ -1,0 +1,26 @@
+<odoo>
+    <template id="report_invoice_document_inherit" inherit_id="l10n_ar.report_invoice_document">
+        <div id="qrcode" position="after">
+            <div style="clear: both;"></div>  <!-- Evita superposición -->
+            <div t-if="o.l10n_latam_document_type_id.l10n_ar_letter == 'B'" 
+                 class="mt16 mb8"
+                 style="border: 1px solid black; padding: 10px; width: 50%; float: left;">
+                <strong>Régimen de Transparencia Fiscal al Consumidor (Ley 27.743)</strong>
+                <table class="table" style="width: 100%;">
+                    <tr>
+                        <td style="width: 80%;">IVA Contenido:</td>
+                        <td style="text-align: right;">
+                            <span t-esc="o._get_vat_contained_amount()" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Otros Impuestos Nacionales Indirectos:</td>
+                        <td style="text-align: right;">
+                            <span t-esc="o._get_other_indirect_taxes()" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </template>
+</odoo>
