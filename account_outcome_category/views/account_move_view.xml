@@ -27,7 +27,7 @@
                     <field name="account_outcome_category_multiple"/>                    
                 </group>
             </group>
-            <xpath expr="//form//field[@name='credit']" position="after">
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='invoice_tab']/field[@name='invoice_line_ids']/tree[1]/field[@name='price_unit']" position="after">
                 <field name="account_outcome_category_1" column_invisible="parent.move_type in ('out_invoice', 'out_refund')" optional="show" />
                 <field name="account_outcome_category_2" column_invisible="parent.move_type in ('out_invoice', 'out_refund')" optional="show" />
             </xpath>
