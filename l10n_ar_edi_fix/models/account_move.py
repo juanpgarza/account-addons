@@ -24,8 +24,7 @@ class AccountMove(models.Model):
         # porque si se paga en dolares es más complejo (tengo que informar la cot oficial del USD)
         # uso el mismo nombre de variable que usan en v16,v17, etc
         self.l10n_ar_payment_foreign_currency = "N"
-        if res.get('MonId') != 'PES': # WSFE 10241
-            # import pdb; pdb.set_trace()
+        if res['FeDetReq'][0]['FECAEDetRequest']['MonId'] and res['FeDetReq'][0]['FECAEDetRequest']['MonId'] != 'PES': # WSFE 10241
             res['FeDetReq'][0]['FECAEDetRequest']['CanMisMonExt'] = self.l10n_ar_payment_foreign_currency
 
         # import pdb; pdb.set_trace()
