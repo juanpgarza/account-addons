@@ -35,20 +35,20 @@
     </record>   
 
     <record id="account_payment_plan_tarjeta_tree_view" model="ir.ui.view">
-        <field name="name">account.payment.plan.tarjeta.tree</field>
+        <field name="name">account.payment.plan.tarjeta.list</field>
         <field name="model">account.payment.plan.tarjeta</field>
         <field name="arch" type="xml">
-		<tree string="plan de Tarjeta" >
+		<list >
 			<field name="name" />     
             <field name="journal_id" />       
-		</tree>
+		</list>
 	    </field>
 	</record>
 
     <record id="action_plan_tarjeta" model="ir.actions.act_window">
         <field name="name">Planes de Tarjetas</field>
         <field name="res_model">account.payment.plan.tarjeta</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem action="action_plan_tarjeta" id="menu_plan_tarjeta" 

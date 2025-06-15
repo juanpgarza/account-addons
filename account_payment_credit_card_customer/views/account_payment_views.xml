@@ -19,10 +19,10 @@
     </record>
 
     <record id="view_pagos_tarjeta_tree" model="ir.ui.view">
-            <field name="name">view.pagos.tarjeta.tree</field>
+            <field name="name">view.pagos.tarjeta.list</field>
             <field name="model">account.payment</field>
             <field name="arch" type="xml">
-            <tree string="Pagos con tarjeta" >
+            <list >
                 <field name="date"/>
                 <field name="display_name"/>
                 <field name="partner_id"/>
@@ -33,7 +33,7 @@
                 <!-- <field name="payment_type_copy" invisible="context.get('visible', True)"/> -->
                 <field name="amount" sum="Total Amount"/>
                 <field name="state"/>
-            </tree>
+            </list>
 	    </field>
 	</record>
 
@@ -56,10 +56,10 @@
         <!-- <field name="view_type">form</field> -->
         <field name="view_id" ref="view_pagos_tarjeta_tree" />
         <field name="domain">[('is_credit_card','=','1')]</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
     </record>
 
     <menuitem action="action_view_pagos_tarjeta" id="menu_pagos_tarjeta_credito"
-            parent="account_ux.menu_finance_bank_and_cash"/>
+            parent="account_internal_transfer.menu_finance_bank_and_cash"/>
 
 </odoo>

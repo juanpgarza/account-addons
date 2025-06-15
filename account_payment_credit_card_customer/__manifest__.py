@@ -4,14 +4,15 @@
 {
     "name": "Account Payment Credit Card Customer",
     "summary": "",
-    "version": "17.0.1.0.0",
+    "version": "18.0.1.0.0",
     "category": "Account",
     "website": "https://github.com/juanpgarza/account-addons",
     "author": "juanpgarza",
     "license": "AGPL-3",
     "depends": [
         "account",
-        "account_ux", # para el menu
+        # "account_ux", # para el menu
+        "account_internal_transfer", # para el menu (de adhoc)
         # "account_payment_group",
         ],
     "data": [
